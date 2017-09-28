@@ -1,0 +1,24 @@
+{
+  "name": "pusher-js-mock",
+  "version": "0.1.0",
+  "description": "Mock Pusher.js in your JavaScript tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikolalsvk/pusher-js-mock.git"
+  },
+  "keywords": [
+    "pusher",
+    "mock",
+    "test"
+  ],
+  "author": "Nikola Đuza <nikolaseap@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nikolalsvk/pusher-js-mock/issues"
+  },
+  "homepage": "https://github.com/nikolalsvk/pusher-js-mock#readme"
+}
