@@ -4,7 +4,7 @@
   "description": "Mock Pusher.js in your JavaScript tests",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "cross-env BABEL_ENV=commonjs mocha --compilers js:babel-register --recursive"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,14 @@
   },
   "homepage": "https://github.com/nikolalsvk/pusher-js-mock#readme",
   "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.1.2",
+    "cross-env": "^5.0.5",
+    "istanbul": "^0.4.5",
     "mocha": "^3.5.3"
   },
   "engines": {
