@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env BABEL_ENV=commonjs mocha --compilers js:babel-register --recursive",
-    "cover": "cross-env BABEL_ENV=commonjs istanbul cover _mocha -- --compilers js:babel-register --recursive"
+    "cover": "cross-env BABEL_ENV=commonjs istanbul cover _mocha -- --compilers js:babel-register --recursive",
+    "lint": "eslint src test",
+    "clean": "rimraf lib"
   },
   "repository": {
     "type": "git",
@@ -25,14 +27,21 @@
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.1",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-2": "^6.24.1",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "cross-env": "^5.0.5",
+    "eslint": "^4.7.2",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.4.0",
     "istanbul": "^1.0.0-alpha",
-    "mocha": "^3.5.3"
+    "mocha": "^3.5.3",
+    "rimraf": "^2.6.2"
   },
   "engines": {
     "node": ">=4.2.4"
