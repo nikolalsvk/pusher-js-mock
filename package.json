@@ -34,6 +34,7 @@
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "cross-env": "^5.0.5",
+    "dirty-chai": "^2.0.1",
     "eslint": "^4.7.2",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
@@ -41,7 +42,9 @@
     "eslint-plugin-react": "^7.4.0",
     "istanbul": "^1.0.0-alpha",
     "mocha": "^3.5.3",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "sinon": "^4.0.0",
+    "sinon-chai": "^2.14.0"
   },
   "engines": {
     "node": ">=4.2.4"

@@ -1,6 +1,8 @@
-class PusherChannelMock {}
+import PusherChannelMock from './pusher-channel-mock';
 
+/** Class representing fake Pusher. */
 export default class PusherMock {
+  /** Initialize PusherMock with empty channels object. */
   constructor() {
     this.channels = {};
   }

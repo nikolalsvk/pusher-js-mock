@@ -1,50 +1,54 @@
-import { expect } from 'chai'
-import PusherMock from '../src/pusher-js-mock'
+import chai, { expect } from 'chai';
+import dirtyChai from 'dirty-chai';
 
-describe("PusherMock", () => {
+import PusherMock from '../src/pusher-js-mock';
+
+chai.use(dirtyChai);
+
+describe('PusherMock', () => {
   let pusherMock;
 
   beforeEach(() => {
     pusherMock = new PusherMock();
-  })
+  });
 
-  it("should have channels", () => {
-    expect(pusherMock.channels).to.be.empty;
-  })
+  it('initializes channels object', () => {
+    expect(pusherMock.channels).to.be.empty();
+  });
 
-  describe("#channel", () => {
-    it("returns instance of PusherChannelMock", () => {
-      expect(pusherMock.channel("my-channel")).to.be.an('object');
-    })
+  describe('#channel', () => {
+    it('returns instance of PusherChannelMock', () => {
+      expect(pusherMock.channel('my-channel')).to.be.an('object');
+    });
 
-    it("adds new channel to channels array", () => {
-      pusherMock.channel("my-channel");
-      expect(pusherMock.channels).to.have.all.keys("my-channel");
-    })
+    it('adds new channel to channels object', () => {
+      pusherMock.channel('my-channel');
+      expect(pusherMock.channels).to.have.all.keys('my-channel');
+    });
 
-    describe("channel is already added to channels array", () => {
+    describe('channel is already added to channels object', () => {
       beforeEach(() => {
-        pusherMock.channel("my-channel");
-      })
+        pusherMock.channel('my-channel');
+      });
 
-      it("returns instance of PusherChannelMock", () => {
-        expect(pusherMock.channel("my-channel")).to.be.an('object');
-      })
+      it('returns instance of PusherChannelMock', () => {
+        expect(pusherMock.channel('my-channel')).to.be.an('object');
+      });
 
-      it("adds new channel to channels array", () => {
-        expect(pusherMock.channels).to.have.all.keys("my-channel");
-      })
-    })
-  })
+      it('adds new channel to channels object', () => {
+        expect(pusherMock.channels).to.have.all.keys('my-channel');
+      });
+    });
+  });
 
-  describe("#subscribe", () => {
-    it("returns instance of PusherChannelMock", () => {
-      expect(pusherMock.subscribe("my-channel")).to.be.an('object');
-    })
+  describe('#subscribe', () => {
+    it('returns instance of PusherChannelMock', () => {
+      expect(pusherMock.subscribe('my-channel')).to.be.an('object');
+    });
 
-    it("adds new channel to channels array", () => {
-      pusherMock.subscribe("my-channel");
-      expect(pusherMock.channels).to.have.all.keys("my-channel");
-    })
-  })
-})
+    it('adds new channel to channels object', () => {
+      pusherMock.subscribe('my-channel');
+      expect(pusherMock.channels).to.have.all.keys('my-channel');
+    });
+  });
+});
