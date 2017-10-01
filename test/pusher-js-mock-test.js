@@ -23,12 +23,15 @@ describe("PusherMock", () => {
     })
 
     describe("channel is already added to channels array", () => {
+      beforeEach(() => {
+        pusherMock.channel("my-channel");
+      })
+
       it("returns instance of PusherChannelMock", () => {
         expect(pusherMock.channel("my-channel")).to.be.an('object');
       })
 
       it("adds new channel to channels array", () => {
-        pusherMock.channel("my-channel");
         expect(pusherMock.channels).to.have.all.keys("my-channel");
       })
     })
