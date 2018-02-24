@@ -1,6 +1,6 @@
 import chai, { expect } from 'chai';
 
-import PusherFactoryMock from '../src/pusher-factory-mock'
+import PusherFactoryMock from '../pusher-factory-mock'
 
 describe('PusherFactoryMock', () => {
   let pusherFactoryMock

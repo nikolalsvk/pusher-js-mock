@@ -3,7 +3,7 @@ import dirtyChai from 'dirty-chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
-import PusherChannelMock from '../src/pusher-channel-mock';
+import PusherChannelMock from '../pusher-channel-mock';
 
 chai.use(dirtyChai);
 chai.use(sinonChai);
