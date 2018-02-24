@@ -1,4 +1,4 @@
-import PusherMock from "./pusher-js-mock"
+import PusherMock from './pusher-js-mock';
 
 /** Class represents fake PusherFactory
  *
@@ -15,21 +15,21 @@ import PusherMock from "./pusher-js-mock"
  *
  *   pusher = pusherFactoryMock.pusherClient()
  * })
- * **/
+ */
 export default class PusherFactoryMock {
   /** Initialize PusherFactoryMock with pusherKey and sets a
    * pusherClientInstance
    * @param {String} pusherKey - Pusher app key
-   * **/
+   */
   constructor(pusherKey) {
-    this.pusherKey = pusherKey
-    this.pusherClientInstance = new PusherMock()
+    this.pusherKey = pusherKey;
+    this.pusherClientInstance = new PusherMock();
   }
 
   /** Getter for pusherClientInstance
    * @returns {PusherMock} PusherMock object that reprents pusherClient
-   * **/
+   */
   pusherClient() {
-    return this.pusherClientInstance
+    return this.pusherClientInstance;
   }
 }

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest test --watch",
     "cover": "jest test --coverage",
-    "lint": "eslint src test",
+    "lint": "eslint src test --fix",
     "clean": "rimraf lib"
   },
   "repository": {
@@ -49,6 +49,13 @@
     "rimraf": "^2.6.2",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.14.0"
+  },
+  "lint-staged": {
+    "app/javascript/**/*.js": [
+      "prettier --write",
+      "./node_modules/.bin/eslint",
+      "git add"
+    ]
   },
   "engines": {
     "node": ">=4.2.4"
