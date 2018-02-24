@@ -1,9 +1,9 @@
 import PusherMock from './pusher-js-mock';
 
-/** Class represents fake PusherFactory
+/**
+ * Class represents fake PusherFactory.
  *
- * Example usage:
- *
+ * @example
  * import { PusherFactoryMock } from "pusher-js-mock";
  *
  * ...
