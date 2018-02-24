@@ -4,9 +4,9 @@
   "description": "Mock Pusher.js in your JavaScript tests",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env BABEL_ENV=commonjs mocha --compilers js:babel-register --recursive",
-    "cover": "cross-env BABEL_ENV=commonjs istanbul cover _mocha -- --compilers js:babel-register --recursive",
-    "lint": "eslint src test",
+    "test": "jest test --watch",
+    "cover": "jest test --coverage",
+    "lint": "eslint src test --fix",
     "clean": "rimraf lib"
   },
   "repository": {
@@ -40,11 +40,22 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.4.0",
+    "husky": "^0.14.3",
     "istanbul": "^1.0.0-alpha",
+    "jest": "^22.4.2",
+    "lint-staged": "^7.0.0",
     "mocha": "^3.5.3",
+    "prettier": "^1.10.2",
     "rimraf": "^2.6.2",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.14.0"
+  },
+  "lint-staged": {
+    "app/javascript/**/*.js": [
+      "prettier --write",
+      "./node_modules/.bin/eslint",
+      "git add"
+    ]
   },
   "engines": {
     "node": ">=4.2.4"

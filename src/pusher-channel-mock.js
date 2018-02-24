@@ -1,4 +1,4 @@
-/** Class representing fake Pusher channel. */
+/** Class representing a fake Pusher channel. */
 export default class PusherChannelMock {
   /** Initialize PusherChannelMock with callbacks object. */
   constructor() {
@@ -6,7 +6,7 @@ export default class PusherChannelMock {
   }
 
   /**
-   * Bind callback to a event name.
+   * Bind callback to an event name.
    * @param {String} name - name of the event.
    * @param {Function} callback - callback to be called on event.
    */

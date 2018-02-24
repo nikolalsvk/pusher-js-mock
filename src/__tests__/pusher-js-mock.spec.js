@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
 import dirtyChai from 'dirty-chai';
 
-import PusherMock from '../src/pusher-js-mock';
+import PusherMock from '../pusher-js-mock';
 
 chai.use(dirtyChai);
 
