@@ -8,7 +8,8 @@
     "cover": "jest test --coverage",
     "lint": "eslint src test --fix",
     "doc": "jsdoc src README.md --destination docs",
-    "clean": "rimraf lib"
+    "clean": "rimraf lib",
+    "precommit": "yarn doc && git add -A"
   },
   "repository": {
     "type": "git",
@@ -50,14 +51,6 @@
     "rimraf": "^2.6.2",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.14.0"
-  },
-  "lint-staged": {
-    "app/javascript/**/*.js": [
-      "prettier --write",
-      "./node_modules/.bin/eslint",
-      "yarn doc",
-      "git add"
-    ]
   },
   "engines": {
     "node": ">=4.2.4"

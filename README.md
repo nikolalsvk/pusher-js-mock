@@ -2,6 +2,8 @@
 [![Code Climate](https://codeclimate.com/github/nikolalsvk/pusher-js-mock/badges/gpa.svg)](https://codeclimate.com/github/nikolalsvk/pusher-js-mock)
 [![Test Coverage](https://codeclimate.com/github/nikolalsvk/pusher-js-mock/badges/coverage.svg)](https://codeclimate.com/github/nikolalsvk/pusher-js-mock/coverage)
 
+![pusher-js-mock logo](logo.jpg)
+
 # pusher-js-mock
 
 Mock Pusher.js in your JavaScript tests with ease
