@@ -1,5 +1,5 @@
 /** Class representing a fake Pusher channel. */
-export default class PusherChannelMock {
+class PusherChannelMock {
   /** Initialize PusherChannelMock with callbacks object. */
   constructor() {
     this.callbacks = {};
@@ -27,3 +27,5 @@ export default class PusherChannelMock {
     }
   }
 }
+
+export default PusherChannelMock;

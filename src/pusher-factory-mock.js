@@ -16,8 +16,9 @@ import PusherMock from './pusher-js-mock';
  *   pusher = pusherFactoryMock.pusherClient()
  * })
  */
-export default class PusherFactoryMock {
-  /** Initialize PusherFactoryMock with pusherKey and sets a
+class PusherFactoryMock {
+  /**
+   * Initialize PusherFactoryMock with pusherKey and sets a
    * pusherClientInstance
    * @param {String} pusherKey - Pusher app key
    */
@@ -26,10 +27,13 @@ export default class PusherFactoryMock {
     this.pusherClientInstance = new PusherMock();
   }
 
-  /** Getter for pusherClientInstance
+  /**
+   * Getter for pusherClientInstance
    * @returns {PusherMock} PusherMock object that reprents pusherClient
    */
   pusherClient() {
     return this.pusherClientInstance;
   }
 }
+
+export default PusherFactoryMock;
