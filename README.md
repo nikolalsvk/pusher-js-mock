@@ -7,3 +7,7 @@
 # pusher-js-mock
 
 Mock Pusher.js in your JavaScript tests with ease
+
+### Credits
+
+Photo by [Octavian Rosca on Unsplash](https://unsplash.com/@tavi004)
