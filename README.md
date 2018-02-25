@@ -8,6 +8,61 @@
 
 Mock Pusher.js in your JavaScript tests with ease
 
+### Example usage
+
+#### Using PusherMock to mock Pusher client instance
+
+If you need to mock a Pusher object in your tests that can
+subscribe to channel, it's best to use PusherMock.
+
+```javascript
+import { PusherMock } from "pusher-js-mock";
+
+// initializing PusherMock
+const pusher = new PusherMock()
+
+// subscribing to a Pusher channel
+const channel = pusher.subscribe("my-channel")
+
+// emitting an event
+channel.emit("event-name")
+```
+
+#### Using PusherFactoryMock to mock Pusher Factory
+
+If you're attaching a PusherFactory to a `window` object like this:
+
+```javascript
+window.PusherFactory = {
+  pusherClient: function(pusherKey) {
+    return new Pusher(pusherKey);
+  }
+};
+```
+
+It's best for you to use PusherFactoryMock.
+
+```javascript
+import { PusherFactoryMock } from "pusher-js-mock";
+
+// initialize instance of PusherFactoryMock
+const pusherFactoryMock = new PusherFactoryMock();
+// replace it with the object that is attached to a window
+window.PusherFactory = pusherFactoryMock;
+
+// get the Pusher client reference
+pusher = pusherFactoryMock.pusherClient()
+```
+
+### API 📦
+
+Check out project docs on the information about API of the used
+classes.
+
+### [Code of Conduct](CODE_OF_CODUCT.md)
+
+### [Contributing](CONTRIBUTING.md)
+
 ### Credits
 
 Photo by [Octavian Rosca on Unsplash](https://unsplash.com/@tavi004)
