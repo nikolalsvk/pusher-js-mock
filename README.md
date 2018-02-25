@@ -8,6 +8,18 @@
 
 Mock Pusher.js in your JavaScript tests with ease
 
+### Installing
+
+Using yarn:
+```
+yarn add --dev pusher-js-mock
+```
+
+Or using npm:
+```
+npm install -D pusher-js-mock
+```
+
 ### Example usage
 
 #### Using PusherMock to mock Pusher client instance
