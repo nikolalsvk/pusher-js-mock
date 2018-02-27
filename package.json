@@ -1,6 +1,6 @@
 {
   "name": "pusher-js-mock",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Mock Pusher.js in your JavaScript tests",
   "main": "index.js",
   "scripts": {
