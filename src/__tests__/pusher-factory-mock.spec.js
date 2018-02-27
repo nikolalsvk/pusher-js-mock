@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import PusherFactoryMock from '../pusher-factory-mock';
 
 describe('PusherFactoryMock', () => {
@@ -11,12 +9,12 @@ describe('PusherFactoryMock', () => {
   });
 
   it('initializes pusherKey', () => {
-    expect(pusherFactoryMock.pusherKey).to.equal('19ir1pkcj13');
+    expect(pusherFactoryMock.pusherKey).toEqual('19ir1pkcj13');
   });
 
   describe('pusherClient', () => {
     it('return an object', () => {
-      expect(pusherFactoryMock.pusherClient()).to.be.an('object');
+      expect(pusherFactoryMock.pusherClient()).toBeDefined();
     });
   });
 });
