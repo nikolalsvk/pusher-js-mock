@@ -8,12 +8,12 @@ describe('PusherMock', () => {
   });
 
   it('initializes channels object', () => {
-    expect(pusherMock.channels).toEqual({})
+    expect(pusherMock.channels).toEqual({});
   });
 
   describe('#channel', () => {
     it('returns instance of PusherChannelMock', () => {
-      expect(pusherMock.channel('my-channel')).toBeDefined()
+      expect(pusherMock.channel('my-channel')).toBeDefined();
     });
 
     it('adds new channel to channels object', () => {
@@ -27,7 +27,7 @@ describe('PusherMock', () => {
       });
 
       it('returns instance of PusherChannelMock', () => {
-        expect(pusherMock.channel('my-channel')).toBeDefined()
+        expect(pusherMock.channel('my-channel')).toBeDefined();
       });
 
       it('adds new channel to channels object', () => {
@@ -38,12 +38,12 @@ describe('PusherMock', () => {
 
   describe('#subscribe', () => {
     it('returns instance of PusherChannelMock', () => {
-      expect(pusherMock.channel('my-channel')).toBeDefined()
+      expect(pusherMock.channel('my-channel')).toBeDefined();
     });
 
     it('adds new channel to channels object', () => {
       pusherMock.subscribe('my-channel');
-      expect(pusherMock.channels).toMatchObject({ 'my-channel': {} })
+      expect(pusherMock.channels).toMatchObject({ 'my-channel': {} });
     });
   });
 });

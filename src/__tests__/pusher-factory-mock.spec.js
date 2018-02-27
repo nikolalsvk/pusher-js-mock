@@ -14,7 +14,7 @@ describe('PusherFactoryMock', () => {
 
   describe('pusherClient', () => {
     it('return an object', () => {
-      expect(pusherFactoryMock.pusherClient()).toBeDefined()
+      expect(pusherFactoryMock.pusherClient()).toBeDefined();
     });
   });
 });
