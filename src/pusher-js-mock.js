@@ -1,4 +1,4 @@
-import PusherChannelMock from './pusher-channel-mock';
+const PusherChannelMock = require('./pusher-channel-mock');
 
 /** Class representing fake Pusher. */
 class PusherMock {
@@ -30,4 +30,4 @@ class PusherMock {
   }
 }
 
-export default PusherMock;
+module.exports = PusherMock;
