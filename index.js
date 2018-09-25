@@ -1,5 +1,9 @@
-import PusherMock from './src/pusher-js-mock';
-import PusherFactoryMock from './src/pusher-factory-mock';
-import PusherChannelMock from './src/pusher-channel-mock';
+const PusherMock = require('./src/pusher-js-mock');
+const PusherFactoryMock = require('./src/pusher-factory-mock');
+const PusherChannelMock = require('./src/pusher-channel-mock');
 
-export { PusherMock, PusherFactoryMock, PusherChannelMock };
+module.exports = {
+  PusherMock: PusherMock,
+  PusherFactoryMock: PusherFactoryMock,
+  PusherChannelMock: PusherChannelMock
+};

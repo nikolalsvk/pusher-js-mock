@@ -28,4 +28,4 @@ class PusherChannelMock {
   }
 }
 
-export default PusherChannelMock;
+module.exports = PusherChannelMock;

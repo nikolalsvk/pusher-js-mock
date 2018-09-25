@@ -1,4 +1,4 @@
-import PusherMock from './pusher-js-mock';
+const PusherMock = require('./pusher-js-mock');
 
 /**
  * Class represents fake PusherFactory.
@@ -36,4 +36,4 @@ class PusherFactoryMock {
   }
 }
 
-export default PusherFactoryMock;
+module.exports = PusherFactoryMock;
