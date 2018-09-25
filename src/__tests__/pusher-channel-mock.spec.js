@@ -1,4 +1,4 @@
-import PusherChannelMock from '../pusher-channel-mock';
+import { PusherChannelMock } from '../../index';
 
 describe('PusherChannelMock', () => {
   let channelMock;

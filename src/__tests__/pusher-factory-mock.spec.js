@@ -1,4 +1,4 @@
-import PusherFactoryMock from '../pusher-factory-mock';
+import { PusherFactoryMock } from '../../index';
 
 describe('PusherFactoryMock', () => {
   let pusherFactoryMock;
