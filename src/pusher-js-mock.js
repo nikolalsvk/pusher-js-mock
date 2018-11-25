@@ -34,7 +34,10 @@ class PusherMock {
    * @param {String} name - name of the channel.
    */
   unsubscribe(name) {
-    delete this.channels[name];
+    if (name in this.channels) {
+      this.channels[name].callbacks = {};
+      delete this.channels[name];
+    }
   }
 }
 
