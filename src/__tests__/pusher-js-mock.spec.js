@@ -46,4 +46,12 @@ describe('PusherMock', () => {
       expect(pusherMock.channels).toMatchObject({ 'my-channel': {} });
     });
   });
+
+  describe('#unsubscribe', () => {
+    it('removes channel from channels object', () => {
+      pusherMock.subscribe('my-channel');
+      pusherMock.unsubscribe('my-channel');
+      expect(pusherMock.channels).toEqual({});
+    });
+  });
 });

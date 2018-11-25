@@ -28,6 +28,14 @@ class PusherMock {
   subscribe(name) {
     return this.channel(name);
   }
+
+  /**
+   * Unsubscribe from a mocked channel.
+   * @param {String} name - name of the channel.
+   */
+  unsubscribe(name) {
+    delete this.channels[name];
+  }
 }
 
 module.exports = PusherMock;
