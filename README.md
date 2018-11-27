@@ -4,7 +4,7 @@
 [![Test Coverage](https://codeclimate.com/github/nikolalsvk/pusher-js-mock/badges/coverage.svg)](https://codeclimate.com/github/nikolalsvk/pusher-js-mock/coverage)
 [![Open Source Helpers](https://www.codetriage.com/nikolalsvk/pusher-js-mock/badges/users.svg)](https://www.codetriage.com/nikolalsvk/pusher-js-mock)
 
-![pusher-js-mock logo](logo.jpg)
+![pusher-js-mock logo](https://raw.githubusercontent.com/nikolalsvk/pusher-js-mock/master/logo.jpg)
 
 # pusher-js-mock
 
