@@ -8,9 +8,9 @@
 
 # pusher-js-mock
 
-Mock Pusher.js in your JavaScript tests with ease
+Mock [Pusher.js](https://github.com/pusher/pusher-js) in your JavaScript tests with ease
 
-### Installing
+### Installing ⏬
 
 Using yarn:
 ```
@@ -22,7 +22,16 @@ Or using npm:
 npm install -D pusher-js-mock
 ```
 
-### Example usage
+### Docs 📑
+
+See [project documentation](https://nikolalsvk.github.io/pusher-js-mock/) for
+more reference.
+
+### Example usage 🏍
+
+You can find basic usage of the library here.  For more detailed examples,
+check out [`examples` directory](https://github.com/nikolalsvk/pusher-js-mock/tree/master/examples)
+inside the project!
 
 #### Using PusherMock to mock Pusher client instance
 
@@ -70,8 +79,8 @@ pusher = pusherFactoryMock.pusherClient()
 
 ### API 📦
 
-Check out project docs on the information about API of the used
-classes.
+Check out [project docs](https://nikolalsvk.github.io/pusher-js-mock/) on the
+information about API of the used classes.
 
 ### [Code of Conduct](CODE_OF_CODUCT.md)
 
