@@ -48,10 +48,19 @@ describe('PusherMock', () => {
   });
 
   describe('#unsubscribe', () => {
-    it('removes channel from channels object', () => {
-      pusherMock.subscribe('my-channel');
-      pusherMock.unsubscribe('my-channel');
-      expect(pusherMock.channels).toEqual({});
+    describe('channel name is inside channels object', () => {
+      it('removes channel from channels object', () => {
+        pusherMock.subscribe('my-channel');
+        pusherMock.unsubscribe('my-channel');
+        expect(pusherMock.channels).toEqual({});
+      });
+    });
+
+    describe('channel name is not inside channels object', () => {
+      it('removes channel from channels object', () => {
+        pusherMock.unsubscribe('my-channel');
+        expect(pusherMock.channels).toEqual({});
+      });
     });
   });
 });
