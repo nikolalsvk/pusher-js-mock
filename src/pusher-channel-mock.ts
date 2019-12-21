@@ -1,5 +1,11 @@
+interface ICallbacks {
+  [key: string]: Array<() => void>;
+}
+
 /** Class representing a fake Pusher channel. */
 class PusherChannelMock {
+  public callbacks: ICallbacks;
+
   /** Initialize PusherChannelMock with callbacks object. */
   constructor() {
     this.callbacks = {};
@@ -10,7 +16,7 @@ class PusherChannelMock {
    * @param {String} name - name of the event.
    * @param {Function} callback - callback to be called on event.
    */
-  bind(name, callback) {
+  public bind(name: string, callback: () => void) {
     this.callbacks[name] = this.callbacks[name] || [];
     this.callbacks[name].push(callback);
   }
@@ -20,8 +26,10 @@ class PusherChannelMock {
    * @param {String} name - name of the event.
    * @param {Function} callback - callback to be called on event.
    */
-  unbind(name, callback) {
-    this.callbacks[name] = (this.callbacks[name] || []).filter(cb => cb !== callback);
+  public unbind(name: string, callback: () => void) {
+    this.callbacks[name] = (this.callbacks[name] || []).filter(
+      cb => cb !== callback
+    );
   }
 
   /**
@@ -29,13 +37,13 @@ class PusherChannelMock {
    * @param {String} name - name of the event.
    * @param {*} data - data you want to pass in to callback function that gets * called.
    */
-  emit(name, data) {
+  public emit(name: string, data?: any) {
     const callbacks = this.callbacks[name];
 
     if (callbacks) {
-      callbacks.forEach(cb => cb(data));
+      callbacks.forEach((cb: (data?: any) => void) => cb(data));
     }
   }
 }
 
-module.exports = PusherChannelMock;
+export default PusherChannelMock;

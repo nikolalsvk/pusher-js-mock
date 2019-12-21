@@ -1,4 +1,4 @@
-const PusherMock = require('./pusher-js-mock');
+import PusherMock from "./pusher-js-mock";
 
 /**
  * Class represents fake PusherFactory.
@@ -17,12 +17,15 @@ const PusherMock = require('./pusher-js-mock');
  * })
  */
 class PusherFactoryMock {
+  public pusherKey: string;
+  public pusherClientInstance: PusherMock;
+
   /**
    * Initialize PusherFactoryMock with pusherKey and sets a
    * pusherClientInstance
    * @param {String} pusherKey - Pusher app key
    */
-  constructor(pusherKey) {
+  constructor(pusherKey: string) {
     this.pusherKey = pusherKey;
     this.pusherClientInstance = new PusherMock();
   }
@@ -31,9 +34,9 @@ class PusherFactoryMock {
    * Getter for pusherClientInstance
    * @returns {PusherMock} PusherMock object that reprents pusherClient
    */
-  pusherClient() {
+  public pusherClient() {
     return this.pusherClientInstance;
   }
 }
 
-module.exports = PusherFactoryMock;
+export default PusherFactoryMock;

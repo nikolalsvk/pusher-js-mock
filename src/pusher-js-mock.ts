@@ -1,7 +1,13 @@
-const PusherChannelMock = require('./pusher-channel-mock');
+import PusherChannelMock from "./pusher-channel-mock";
+
+interface IChannels {
+  [name: string]: any;
+}
 
 /** Class representing fake Pusher. */
 class PusherMock {
+  public channels: IChannels;
+
   /** Initialize PusherMock with empty channels object. */
   constructor() {
     this.channels = {};
@@ -12,7 +18,7 @@ class PusherMock {
    * @param {String} name - name of the channel.
    * @returns {PusherChannelMock} PusherChannelMock object that represents channel
    */
-  channel(name) {
+  public channel(name: string) {
     if (!this.channels[name]) {
       this.channels[name] = new PusherChannelMock();
     }
@@ -25,7 +31,7 @@ class PusherMock {
    * @param {String} name - name of the channel.
    * @returns {PusherChannelMock} PusherChannelMock object that represents channel
    */
-  subscribe(name) {
+  public subscribe(name: string) {
     return this.channel(name);
   }
 
@@ -33,7 +39,7 @@ class PusherMock {
    * Unsubscribe from a mocked channel.
    * @param {String} name - name of the channel.
    */
-  unsubscribe(name) {
+  public unsubscribe(name: string) {
     if (name in this.channels) {
       this.channels[name].callbacks = {};
       delete this.channels[name];
@@ -41,4 +47,4 @@ class PusherMock {
   }
 }
 
-module.exports = PusherMock;
+export default PusherMock;
