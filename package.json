@@ -11,7 +11,7 @@
     "lint": "tslint -p tsconfig.json",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "docs": "typedoc",
-    "precommit": "yarn lint && yarn format --fix && git add -A src",
+    "precommit": "yarn lint && yarn format && git add -A src",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
