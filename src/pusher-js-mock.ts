@@ -1,5 +1,6 @@
 import PusherChannelMock from "./pusher-channel-mock";
 
+/** Interface for storing channels */
 interface IChannels {
   [name: string]: any;
 }

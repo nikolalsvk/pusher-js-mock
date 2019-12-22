@@ -3,7 +3,8 @@ import PusherMock from "./pusher-js-mock";
 /**
  * Class represents fake PusherFactory.
  *
- * @example
+ * @example <caption>Example of mocking global Pusher instance</caption>
+ *
  * import { PusherFactoryMock } from "pusher-js-mock";
  *
  * ...

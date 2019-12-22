@@ -1,3 +1,4 @@
+/** Interface for all the callbacks each Pusher event could potentially have */
 interface ICallbacks {
   [key: string]: Array<() => void>;
 }
@@ -35,7 +36,7 @@ class PusherChannelMock {
   /**
    * Emit event with data.
    * @param {String} name - name of the event.
-   * @param {*} data - data you want to pass in to callback function that gets * called.
+   * @param {*} data - data you want to pass in to callback function that gets called.
    */
   public emit(name: string, data?: any) {
     const callbacks = this.callbacks[name];

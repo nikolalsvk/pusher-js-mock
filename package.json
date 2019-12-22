@@ -10,6 +10,7 @@
     "cover": "jest test --coverage",
     "lint": "tslint -p tsconfig.json",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "docs": "typedoc",
     "precommit": "yarn lint && yarn format --fix && git add -A src",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
@@ -43,10 +44,12 @@
     "lint-staged": "^7.0.0",
     "prettier": "^1.19.1",
     "pusher-js": "^4.2.2",
+    "pusher-js-mock": "^0.2.0",
     "rimraf": "^2.6.2",
     "ts-jest": "^24.2.0",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
+    "typedoc": "^0.15.5",
     "typescript": "^3.7.4"
   },
   "engines": {
