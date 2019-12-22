@@ -1,7 +1,7 @@
 import PusherClassExample, { MESSAGE_CHANNEL } from '../index'
 
 jest.mock('pusher-js', () => {
-  const Pusher = require('../../../src/pusher-js-mock')
+  const Pusher = require('pusher-js-mock').PusherMock
 
   return Pusher
 })

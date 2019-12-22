@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>pusher-js-mock | pusher-js-mock</title>
+	<title>PusherFactoryMock | pusher-js-mock</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
@@ -2342,7 +2342,7 @@ img {
 		<div class="container">
 			<div class="table-wrap">
 				<div class="table-cell">
-					<strong><a href="index.html">pusher-js-mock</a></strong>
+					<strong><a href="../index.html">pusher-js-mock</a></strong>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -2373,135 +2373,175 @@ img {
 <nav class="tsd-navigation secondary">
 	<ul>
 		<li class=" tsd-kind-class">
-			<a href="classes/pusherchannelmock.html" class="tsd-kind-icon">Pusher<wbr>Channel<wbr>Mock</a>
+			<a href="pusherchannelmock.html" class="tsd-kind-icon">Pusher<wbr>Channel<wbr>Mock</a>
+		</li>
+		<li class="current tsd-kind-class">
+			<a href="pusherfactorymock.html" class="tsd-kind-icon">Pusher<wbr>Factory<wbr>Mock</a>
+			<ul>
+				<li class=" tsd-kind-constructor tsd-parent-kind-class">
+					<a href="pusherfactorymock.html#constructor" class="tsd-kind-icon">constructor</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-class">
+					<a href="pusherfactorymock.html#pusherclientinstance" class="tsd-kind-icon">pusher<wbr>Client<wbr>Instance</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-class">
+					<a href="pusherfactorymock.html#pusherkey" class="tsd-kind-icon">pusher<wbr>Key</a>
+				</li>
+				<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+					<a href="pusherfactorymock.html#pusherclient" class="tsd-kind-icon">pusher<wbr>Client</a>
+				</li>
+			</ul>
 		</li>
 		<li class=" tsd-kind-class">
-			<a href="classes/pusherfactorymock.html" class="tsd-kind-icon">Pusher<wbr>Factory<wbr>Mock</a>
-		</li>
-		<li class=" tsd-kind-class">
-			<a href="classes/pushermock.html" class="tsd-kind-icon">Pusher<wbr>Mock</a>
+			<a href="pushermock.html" class="tsd-kind-icon">Pusher<wbr>Mock</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-is-not-exported">
-			<a href="interfaces/icallbacks.html" class="tsd-kind-icon">ICallbacks</a>
+			<a href="../interfaces/icallbacks.html" class="tsd-kind-icon">ICallbacks</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-is-not-exported">
-			<a href="interfaces/ichannels.html" class="tsd-kind-icon">IChannels</a>
+			<a href="../interfaces/ichannels.html" class="tsd-kind-icon">IChannels</a>
 		</li>
 	</ul>
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
-		<div class="tsd-panel tsd-typography">
-			<p><a href="https://badge.fury.io/js/pusher-js-mock"><img src="https://badge.fury.io/js/pusher-js-mock.svg" alt="npm version"></a>
-				<a href="https://semaphoreci.com/nikolalsvk/pusher-js-mock"><img src="https://semaphoreci.com/api/v1/nikolalsvk/pusher-js-mock/branches/master/shields_badge.svg" alt="Build Status"></a>
-				<a href="https://codeclimate.com/github/nikolalsvk/pusher-js-mock"><img src="https://codeclimate.com/github/nikolalsvk/pusher-js-mock/badges/gpa.svg" alt="Code Climate"></a>
-				<a href="https://codeclimate.com/github/nikolalsvk/pusher-js-mock/coverage"><img src="https://codeclimate.com/github/nikolalsvk/pusher-js-mock/badges/coverage.svg" alt="Test Coverage"></a>
-			<a href="https://www.codetriage.com/nikolalsvk/pusher-js-mock"><img src="https://www.codetriage.com/nikolalsvk/pusher-js-mock/badges/users.svg" alt="Open Source Helpers"></a></p>
-			<p><img src="https://raw.githubusercontent.com/nikolalsvk/pusher-js-mock/master/logo.jpg" alt="pusher-js-mock logo"></p>
-			<a href="#pusher-js-mock" id="pusher-js-mock" style="color: inherit; text-decoration: none;">
-				<h1>pusher-js-mock</h1>
-			</a>
-			<p>Mock <a href="https://github.com/pusher/pusher-js">Pusher.js</a> in your JavaScript tests with ease</p>
-			<a href="#installing-⏬" id="installing-⏬" style="color: inherit; text-decoration: none;">
-				<h3>Installing ⏬</h3>
-			</a>
-			<p>Using yarn:</p>
-			<pre><code>yarn <span class="hljs-keyword">add</span><span class="bash"> --dev pusher-js-mock</span></code></pre><p>Or using npm:</p>
-			<pre><code>npm <span class="hljs-keyword">install</span> -D pusher-js-mock</code></pre>
-			<a href="#usage-🛠" id="usage-🛠" style="color: inherit; text-decoration: none;">
-				<h3>Usage 🛠</h3>
-			</a>
-			<ul>
-				<li><a href="#emitting-an-event-in-tests">Emitting an event in tests</a></li>
-				<li><a href="#stubbing-pusher-when-imported-from-pusher-js-package">Stubbing Pusher when imported from pusher-js package</a></li>
-				<li><a href="#stubbing-pusher-when-used-as-a-global-variable">Stubbing Pusher when used as a global variable</a></li>
+		<section class="tsd-panel tsd-comment">
+			<div class="tsd-comment tsd-typography">
+				<div class="lead">
+					<p>Class represents fake PusherFactory.</p>
+				</div>
+				<dl class="tsd-comment-tags">
+					<dt>example</dt>
+					<dd><caption>Example of mocking global Pusher instance</caption>
+						<p>import { PusherFactoryMock } from &quot;pusher-js-mock&quot;;</p>
+						<p>...</p>
+						<p>beforeEach(() =&gt; {
+						const pusherFactoryMock = new PusherFactoryMock()</p>
+						<p>  window.PusherFactory = pusherFactoryMock</p>
+						<p>  pusher = pusherFactoryMock.pusherClient()
+						})</p>
+					</dd>
+				</dl>
+			</div>
+		</section>
+		<section class="tsd-panel tsd-hierarchy">
+			<h3>Hierarchy</h3>
+			<ul class="tsd-hierarchy">
+				<li>
+					<span class="target">PusherFactoryMock</span>
+				</li>
 			</ul>
-			<p>For more detailed examples, check out <a href="https://github.com/nikolalsvk/pusher-js-mock/tree/master/examples"><code>examples</code> directory</a>
-			inside the project!</p>
-			<a href="#emitting-an-event-in-tests" id="emitting-an-event-in-tests" style="color: inherit; text-decoration: none;">
-				<h4>Emitting an event in tests</h4>
-			</a>
-			<p>If you need to mock a Pusher object in your tests that can
-			subscribe to channel, it&#39;s best to use PusherMock.</p>
-			<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { PusherMock } <span class="hljs-keyword">from</span> <span class="hljs-string">"pusher-js-mock"</span>;
-
-<span class="hljs-comment">// initializing PusherMock</span>
-<span class="hljs-keyword">const</span> pusher = <span class="hljs-keyword">new</span> PusherMock()
-
-<span class="hljs-comment">// subscribing to a Pusher channel</span>
-<span class="hljs-keyword">const</span> channel = pusher.subscribe(<span class="hljs-string">"my-channel"</span>)
-
-<span class="hljs-comment">// emitting an event</span>
-channel.emit(<span class="hljs-string">"event-name"</span>)</code></pre>
-			<a href="#stubbing-pusher-when-imported-from-pusher-js-package" id="stubbing-pusher-when-imported-from-pusher-js-package" style="color: inherit; text-decoration: none;">
-				<h4>Stubbing Pusher when imported from pusher-js package</h4>
-			</a>
-			<p>If you&#39;re using Pusher in your code in this or similar manner:</p>
-			<pre><code class="language-javascript"><span class="hljs-keyword">import</span> Pusher <span class="hljs-keyword">from</span> <span class="hljs-string">'pusher-js'</span>;</code></pre>
-			<p>You will need to mock Pusher in a specific way.</p>
-			<p>I suggest you use <a href="https://jestjs.io/">Jest</a> to test your code.
-			To do this in Jest, you&#39;ll need something like this:</p>
-			<pre><code class="language-javascript">jest.mock(<span class="hljs-string">'pusher-js'</span>, () =&gt; {
-  <span class="hljs-keyword">const</span> Pusher = <span class="hljs-built_in">require</span>(<span class="hljs-string">'pusher-js-mock'</span>).PusherMock
-
-  <span class="hljs-keyword">return</span> Pusher
-})</code></pre>
-			<p>If you have tips on how to mock this using other testing frameworks, please
-			submit an issue or a pull request.</p>
-			<a href="#stubbing-pusher-when-used-as-a-global-variable" id="stubbing-pusher-when-used-as-a-global-variable" style="color: inherit; text-decoration: none;">
-				<h4>Stubbing Pusher when used as a global variable</h4>
-			</a>
-			<p>This shows how to stub a pusher if you&#39;re attaching it to window object in your
-				project. If you&#39;re attaching a PusherFactory to a <code>window</code> object like this in
-			your code:</p>
-			<pre><code class="language-javascript"><span class="hljs-built_in">window</span>.PusherFactory = {
-  <span class="hljs-attr">pusherClient</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">pusherKey</span>) </span>{
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Pusher(pusherKey);
-  }
-};</code></pre>
-			<p>It&#39;s best for you to use PusherFactoryMock.</p>
-			<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { PusherFactoryMock } <span class="hljs-keyword">from</span> <span class="hljs-string">"pusher-js-mock"</span>;
-
-<span class="hljs-comment">// initialize instance of PusherFactoryMock</span>
-<span class="hljs-keyword">const</span> pusherFactoryMock = <span class="hljs-keyword">new</span> PusherFactoryMock();
-<span class="hljs-comment">// replace it with the object that is attached to a window</span>
-<span class="hljs-built_in">window</span>.PusherFactory = pusherFactoryMock;
-
-<span class="hljs-comment">// get the Pusher client reference</span>
-pusher = pusherFactoryMock.pusherClient()</code></pre>
-			<p>This way you&#39;ll just replace your PusherFactory with PusherFactoryMock.</p>
-			<a href="#a-hrefcode_of_coductmdcode-of-conducta" id="a-hrefcode_of_coductmdcode-of-conducta" style="color: inherit; text-decoration: none;">
-				<h3><a href="CODE_OF_CODUCT.md">Code of Conduct</a></h3>
-			</a>
-			<a href="#a-hrefcontributingmdcontributinga" id="a-hrefcontributingmdcontributinga" style="color: inherit; text-decoration: none;">
-				<h3><a href="CONTRIBUTING.md">Contributing</a></h3>
-			</a>
-			<a href="#credits" id="credits" style="color: inherit; text-decoration: none;">
-				<h3>Credits</h3>
-			</a>
-			<p>Photo by <a href="https://unsplash.com/@tavi004">Octavian Rosca on Unsplash</a></p>
-		</div>
-		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
+		</section>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
 					<section class="tsd-index-section ">
-						<h3>Classes</h3>
+						<h3>Constructors</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-class"><a href="classes/pusherchannelmock.html" class="tsd-kind-icon">Pusher<wbr>Channel<wbr>Mock</a></li>
-							<li class="tsd-kind-class"><a href="classes/pusherfactorymock.html" class="tsd-kind-icon">Pusher<wbr>Factory<wbr>Mock</a></li>
-							<li class="tsd-kind-class"><a href="classes/pushermock.html" class="tsd-kind-icon">Pusher<wbr>Mock</a></li>
+							<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="pusherfactorymock.html#constructor" class="tsd-kind-icon">constructor</a></li>
 						</ul>
 					</section>
-					<section class="tsd-index-section tsd-is-not-exported">
-						<h3>Interfaces</h3>
+					<section class="tsd-index-section ">
+						<h3>Properties</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/icallbacks.html" class="tsd-kind-icon">ICallbacks</a></li>
-							<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/ichannels.html" class="tsd-kind-icon">IChannels</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-class"><a href="pusherfactorymock.html#pusherclientinstance" class="tsd-kind-icon">pusher<wbr>Client<wbr>Instance</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-class"><a href="pusherfactorymock.html#pusherkey" class="tsd-kind-icon">pusher<wbr>Key</a></li>
+						</ul>
+					</section>
+					<section class="tsd-index-section ">
+						<h3>Accessors</h3>
+						<ul class="tsd-index-list">
+							<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pusherfactorymock.html#pusherclient" class="tsd-kind-icon">pusher<wbr>Client</a></li>
 						</ul>
 					</section>
 				</div>
+			</section>
+		</section>
+		<section class="tsd-panel-group tsd-member-group ">
+			<h2>Constructors</h2>
+			<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<a name="constructor" class="tsd-anchor"></a>
+				<h3>constructor</h3>
+				<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">new <wbr>Pusher<wbr>Factory<wbr>Mock<span class="tsd-signature-symbol">(</span>pusherKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pusherfactorymock.html" class="tsd-signature-type">PusherFactoryMock</a></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/f6c7665/src/pusher-factory-mock.ts#L22">pusher-factory-mock.ts:22</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Initialize PusherFactoryMock with pusherKey and sets a
+								pusherClientInstance</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>pusherKey: <span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Pusher app key</p>
+									</div>
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <a href="pusherfactorymock.html" class="tsd-signature-type">PusherFactoryMock</a></h4>
+					</li>
+				</ul>
+			</section>
+		</section>
+		<section class="tsd-panel-group tsd-member-group ">
+			<h2>Properties</h2>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<a name="pusherclientinstance" class="tsd-anchor"></a>
+				<h3>pusher<wbr>Client<wbr>Instance</h3>
+				<div class="tsd-signature tsd-kind-icon">pusher<wbr>Client<wbr>Instance<span class="tsd-signature-symbol">:</span> <a href="pushermock.html" class="tsd-signature-type">PusherMock</a></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/f6c7665/src/pusher-factory-mock.ts#L22">pusher-factory-mock.ts:22</a></li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<a name="pusherkey" class="tsd-anchor"></a>
+				<h3>pusher<wbr>Key</h3>
+				<div class="tsd-signature tsd-kind-icon">pusher<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/f6c7665/src/pusher-factory-mock.ts#L21">pusher-factory-mock.ts:21</a></li>
+					</ul>
+				</aside>
+			</section>
+		</section>
+		<section class="tsd-panel-group tsd-member-group ">
+			<h2>Accessors</h2>
+			<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+				<a name="pusherclient" class="tsd-anchor"></a>
+				<h3>pusher<wbr>Client</h3>
+				<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> pusherClient<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pushermock.html" class="tsd-signature-type">PusherMock</a></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/f6c7665/src/pusher-factory-mock.ts#L38">pusher-factory-mock.ts:38</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Getter for pusherClientInstance</p>
+							</div>
+						</div>
+						<h4 class="tsd-returns-title">Returns <a href="pushermock.html" class="tsd-signature-type">PusherMock</a></h4>
+						<p>PusherMock object that reprents pusherClient</p>
+					</li>
+				</ul>
 			</section>
 		</section>
 		<footer class="with-border-bottom">

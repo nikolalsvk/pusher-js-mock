@@ -22,18 +22,19 @@ Or using npm:
 npm install -D pusher-js-mock
 ```
 
-### Docs 📑
+### Usage 🛠
 
-See [project documentation](https://nikolalsvk.github.io/pusher-js-mock/) for
-more reference.
+- [Emitting an event in tests](#emitting-an-event-in-tests)
+- [Stubbing Pusher when imported from pusher-js package](#stubbing-pusher-when-imported-from-pusher-js-package)
+- [Stubbing Pusher when used as a global variable](#stubbing-pusher-when-used-as-a-global-variable)
 
-### Example usage 🏍
-
-You can find basic usage of the library here.  For more detailed examples,
-check out [`examples` directory](https://github.com/nikolalsvk/pusher-js-mock/tree/master/examples)
+For more detailed examples, check out [`examples` directory](https://github.com/nikolalsvk/pusher-js-mock/tree/master/examples)
 inside the project!
 
-#### Using PusherMock to mock Pusher client instance
+Also, you can check out the
+[Docs](https://nikolalsvk.github.io/pusher-js-mock/) for even more information.
+
+#### Emitting an event in tests
 
 If you need to mock a Pusher object in your tests that can
 subscribe to channel, it's best to use PusherMock.
@@ -51,9 +52,35 @@ const channel = pusher.subscribe("my-channel")
 channel.emit("event-name")
 ```
 
-#### Using PusherFactoryMock to mock Pusher Factory
+#### Stubbing Pusher when imported from pusher-js package
 
-If you're attaching a PusherFactory to a `window` object like this:
+If you're using Pusher in your code in this or similar manner:
+
+```javascript
+import Pusher from 'pusher-js';
+```
+
+You will need to mock Pusher in a specific way.
+
+I suggest you use [Jest](https://jestjs.io/) to test your code.
+To do this in Jest, you'll need something like this:
+
+```javascript
+jest.mock('pusher-js', () => {
+  const Pusher = require('pusher-js-mock').PusherMock
+
+  return Pusher
+})
+```
+
+If you have tips on how to mock this using other testing frameworks, please
+submit an issue or a pull request.
+
+#### Stubbing Pusher when used as a global variable
+
+This shows how to stub a pusher if you're attaching it to window object in your
+project. If you're attaching a PusherFactory to a `window` object like this in
+your code:
 
 ```javascript
 window.PusherFactory = {
@@ -77,10 +104,7 @@ window.PusherFactory = pusherFactoryMock;
 pusher = pusherFactoryMock.pusherClient()
 ```
 
-### API 📦
-
-Check out [project docs](https://nikolalsvk.github.io/pusher-js-mock/) on the
-information about API of the used classes.
+This way you'll just replace your PusherFactory with PusherFactoryMock.
 
 ### [Code of Conduct](CODE_OF_CODUCT.md)
 

@@ -1,15 +1,22 @@
 {
   "name": "pusher-js-mock",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Mock Pusher.js in your JavaScript tests",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "test": "jest test --watch",
+    "build": "tsc",
+    "test": "jest --config jest.config.js",
     "cover": "jest test --coverage",
-    "lint": "eslint src test --fix",
-    "doc": "jsdoc src README.md --destination docs",
-    "clean": "rimraf lib",
-    "precommit": "yarn lint && yarn doc && git add -A"
+    "lint": "tslint -p tsconfig.json",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "docs": "typedoc",
+    "precommit": "yarn lint && yarn format && git add -A src",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
@@ -27,29 +34,28 @@
   },
   "homepage": "https://github.com/nikolalsvk/pusher-js-mock#readme",
   "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.0.1",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-stage-2": "^6.24.1",
-    "babel-register": "^6.26.0",
-    "eslint": "^4.7.2",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jest": "^21.12.2",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.4.0",
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "@types/jest": "^24.0.24",
+    "babel-jest": "^24.9.0",
     "husky": "^0.14.3",
-    "jest": "^22.4.2",
+    "jest": "^24.9.0",
     "jsdoc": "^3.5.5",
     "lint-staged": "^7.0.0",
-    "mocha": "^5.0.1",
-    "prettier": "^1.10.2",
+    "prettier": "^1.19.1",
     "pusher-js": "^4.2.2",
-    "rimraf": "^2.6.2"
+    "pusher-js-mock": "^0.2.0",
+    "rimraf": "^2.6.2",
+    "ts-jest": "^24.2.0",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typedoc": "^0.15.5",
+    "typescript": "^3.7.4"
   },
   "engines": {
     "node": ">=4.2.4"
-  }
+  },
+  "files": [
+    "lib/**/*"
+  ]
 }
