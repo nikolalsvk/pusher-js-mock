@@ -22,13 +22,26 @@ describe("PusherChannelMock", () => {
   });
 
   describe("#unbind", () => {
-    it("removes name: callback from callbacks object", () => {
-      const callback = () => {};
-      channelMock.bind("my-channel", callback);
-      channelMock.unbind("my-channel", callback);
+    describe("with callbacks defined for the event", () => {
+      it("removes name: callback from callbacks object", () => {
+        const callback = () => {};
+        channelMock.bind("my-channel", callback);
+        channelMock.unbind("my-channel", callback);
 
-      expect(channelMock.callbacks).toEqual({
-        "my-channel": []
+        expect(channelMock.callbacks).toEqual({
+          "my-channel": []
+        });
+      });
+    });
+
+    describe("without callbacks defined for the event", () => {
+      it("removes name: callback from callbacks object", () => {
+        const callback = () => {};
+        channelMock.unbind("my-channel", callback);
+
+        expect(channelMock.callbacks).toEqual({
+          "my-channel": []
+        });
       });
     });
   });
