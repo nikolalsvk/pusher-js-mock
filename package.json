@@ -2,14 +2,20 @@
   "name": "pusher-js-mock",
   "version": "0.2.0",
   "description": "Mock Pusher.js in your JavaScript tests",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest --config jest.config.js",
     "cover": "jest test --coverage",
     "lint": "tslint -p tsconfig.json",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "precommit": "yarn lint && yarn format --fix && git add -A"
+    "precommit": "yarn lint && yarn format --fix && git add -A src",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
