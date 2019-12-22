@@ -33,7 +33,10 @@
   },
   "homepage": "https://github.com/nikolalsvk/pusher-js-mock#readme",
   "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
     "@types/jest": "^24.0.24",
+    "babel-jest": "^24.9.0",
     "husky": "^0.14.3",
     "jest": "^24.9.0",
     "jsdoc": "^3.5.5",
@@ -49,5 +52,7 @@
   "engines": {
     "node": ">=4.2.4"
   },
-  "files": ["lib/**/*"]
+  "files": [
+    "lib/**/*"
+  ]
 }
