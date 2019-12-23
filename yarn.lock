@@ -3737,10 +3737,10 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-pusher-js-mock@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/pusher-js-mock/-/pusher-js-mock-0.2.0.tgz#2598961c11472798e48c12e2e8bc3d6bc712a868"
-  integrity sha512-mB8k+6PIdXjD5u2Gd61al/DegCIKLwCtiJOn7DIxbsibLjkm2mdMO4r22puWBZKlBdrIG5S2pvbK1CnTXLdmMw==
+pusher-js-mock@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/pusher-js-mock/-/pusher-js-mock-0.2.1.tgz#0832b66bc3a16067476d9b8b3230c292fea762c1"
+  integrity sha512-K/hkX0NtGvwgr6JYuy6GRdQeAku5fGkqInMKZXXAZ1AHob/QevQdQCHCeWmix/eNHkS9YyDUZ7+ylqvIGAtIIQ==
 
 pusher-js@^4.2.2:
   version "4.4.0"
