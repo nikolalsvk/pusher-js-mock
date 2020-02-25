@@ -27,15 +27,25 @@ describe('PusherPresenceChannelMock', () => {
 describe('Proxied PusherPresenceChannelMock', () => {
   let channelMock: PusherPresenceChannelMock;
   let proxiedChannelMock: PusherPresenceChannelMock;
+  let otherProxiedChannelMock: PusherPresenceChannelMock;
+
   beforeEach(() => {
     const client = new PusherMock('my-id', {});
+    const otherClient = new PusherMock('your-id', {});
+
     channelMock = new PusherPresenceChannelMock();
     proxiedChannelMock = proxyPresenceChannel(channelMock, client);
+    otherProxiedChannelMock = proxyPresenceChannel(channelMock, otherClient);
   });
 
-  it(' adds a new member to the channel', () => {
-    expect(channelMock.members.count).toBe(1);
+  it(" doesn't proxy class members it doesn't care about", () => {
+    expect(proxiedChannelMock.subscribed).toBe(true);
+  });
+
+  it(' add new members to the channel', () => {
+    expect(channelMock.members.count).toBe(2);
     expect(channelMock.members.get('my-id')).toEqual({ id: 'my-id', info: {} });
+    expect(channelMock.members.get('your-id')).toEqual({ id: 'your-id', info: {} });
   });
 
   it(' correctly proxies the channel object per client', () => {
@@ -47,16 +57,37 @@ describe('Proxied PusherPresenceChannelMock', () => {
   });
 
   it(' allows multiple clients to subscribe', () => {
-    const otherClient = new PusherMock('your-id', {});
-    const otherProxiedChannelMock = proxyPresenceChannel(channelMock, otherClient);
-
     expect(proxiedChannelMock.myID).toBe('my-id');
     expect(otherProxiedChannelMock.myID).toBe('your-id');
 
     expect(channelMock.members.count).toBe(2);
   });
 
-  it(" doesn'nt proxy class members it doesn'nt care about", () => {
-    expect(proxiedChannelMock.subscribed).toBe(true);
+  describe('callback is not defined for given channel name', () => {
+    it('returns null', () => {
+      const callback = jest.fn();
+      proxiedChannelMock.emit('custom-event');
+      expect(callback).not.toHaveBeenCalled();
+    });
+  });
+
+  it(' should not emit a members callback when that member emits an event', () => {
+    const listener = jest.fn();
+    proxiedChannelMock.bind('custom-event', listener);
+
+    const otherListener = jest.fn();
+    otherProxiedChannelMock.bind('custom-event', otherListener);
+
+    proxiedChannelMock.emit('custom-event');
+    expect(listener).toHaveBeenCalledTimes(0);
+    expect(otherListener).toHaveBeenCalledTimes(1);
+
+    otherProxiedChannelMock.emit('custom-event');
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect(otherListener).toHaveBeenCalledTimes(1);
+
+    // cleanup
+    proxiedChannelMock.unbind('custom-event', listener);
+    otherProxiedChannelMock.unbind('custom-event', otherListener);
   });
 });

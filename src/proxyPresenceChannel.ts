@@ -1,5 +1,10 @@
 import { PusherMock, PusherPresenceChannelMock } from '.';
 
+interface IProxiedCallback {
+  (): () => void;
+  owner: string;
+}
+
 /**
  * Proxies the instance of channel returned so we can still reference the
  * shared members object whilst passing our own ID & me properties
@@ -24,10 +29,32 @@ export const proxyPresenceChannel = (channel: PusherPresenceChannelMock, client:
   const handler = {
     get(target: PusherPresenceChannelMock, name: keyof PusherPresenceChannelMock) {
       switch (name) {
+        // attach this client's info the member specific calls
         case 'me':
           return target.members.get(client.id);
         case 'myID':
           return client.id;
+
+        // attach the owner of the callback so we can ignore it in future
+        case 'bind':
+          return function bind(eventName: string, callback: IProxiedCallback) {
+            callback.owner = client.id;
+            target.bind(eventName, callback);
+          };
+
+        // check the owner of the callback is not this client and then trigger it.
+        case 'emit':
+          return function emit(eventName: string, data?: any) {
+            const callbacks = target.callbacks[eventName];
+            if (callbacks) {
+              callbacks.forEach(
+                (cb: (data?: any) => void) =>
+                  (cb as IProxiedCallback).owner !== client.id && cb(data)
+              );
+            }
+          };
+
+        // return other class members as they were
         default:
           return target[name];
       }
