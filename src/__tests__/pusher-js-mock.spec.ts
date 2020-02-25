@@ -1,4 +1,6 @@
 import { PusherMock } from '../index';
+import PusherChannelMock from '../pusher-channel-mock';
+import PusherPresenceChannelMock from '../pusher-presence-channel-mock';
 
 describe('PusherMock', () => {
   let pusherMock: PusherMock;
@@ -19,6 +21,11 @@ describe('PusherMock', () => {
     it('adds new channel to channels object', () => {
       pusherMock.channel('my-channel');
       expect(pusherMock.channels).toMatchObject({ 'my-channel': {} });
+    });
+
+    it('returns the correct type of channel based on channel name', () => {
+      expect(pusherMock.channel('public-channel')).toBeInstanceOf(PusherChannelMock);
+      expect(pusherMock.channel('presence-channel')).toBeInstanceOf(PusherPresenceChannelMock);
     });
 
     describe('channel is already added to channels object', () => {

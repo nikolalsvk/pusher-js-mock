@@ -8,6 +8,12 @@ describe('PusherPresenceChannelMock', () => {
     channelMock = new PusherPresenceChannelMock();
   });
 
+  it(' sets a name (with a default fallback)', () => {
+    expect(channelMock.name).toBe('presence-channel');
+    const namedChannelMock = new PusherPresenceChannelMock('presence-custom-name');
+    expect(namedChannelMock.name).toBe('presence-custom-name');
+  });
+
   it('initializes members object', () => {
     expect(channelMock.members).toEqual({
       count: 0,
@@ -27,12 +33,12 @@ describe('Proxied PusherPresenceChannelMock', () => {
     proxiedChannelMock = proxyPresenceChannel(channelMock, client);
   });
 
-  it('adds a new member to the channel', () => {
+  it(' adds a new member to the channel', () => {
     expect(channelMock.members.count).toBe(1);
     expect(channelMock.members.get('my-id')).toEqual({ id: 'my-id', info: {} });
   });
 
-  it('correctly proxies the channel object per client', () => {
+  it(' correctly proxies the channel object per client', () => {
     expect(channelMock.myID).toBe(undefined);
     expect(channelMock.me).toBe(undefined);
 
@@ -40,7 +46,7 @@ describe('Proxied PusherPresenceChannelMock', () => {
     expect(proxiedChannelMock.me).toEqual({ id: 'my-id', info: {} });
   });
 
-  it('allows multiple clients to subscribe', () => {
+  it(' allows multiple clients to subscribe', () => {
     const otherClient = new PusherMock('your-id', {});
     const otherProxiedChannelMock = proxyPresenceChannel(channelMock, otherClient);
 
@@ -48,5 +54,9 @@ describe('Proxied PusherPresenceChannelMock', () => {
     expect(otherProxiedChannelMock.myID).toBe('your-id');
 
     expect(channelMock.members.count).toBe(2);
+  });
+
+  it(" doesn'nt proxy class members it doesn'nt care about", () => {
+    expect(proxiedChannelMock.subscribed).toBe(true);
   });
 });

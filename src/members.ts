@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* istanbul ignore file */
 /** COPIED DIRECTLY FROM pusher-js PACKAGE */
 export function objectApply(object: any, f: Function) {
   for (var key in object) {
