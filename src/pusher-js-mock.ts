@@ -1,4 +1,6 @@
-import PusherChannelMock from "./pusher-channel-mock";
+import { proxyPresenceChannel } from './proxyPresenceChannel';
+import PusherChannelMock from './pusher-channel-mock';
+import PusherPresenceChannelMock from './pusher-presence-channel-mock';
 
 /** Interface for storing channels */
 interface IChannels {
@@ -8,10 +10,19 @@ interface IChannels {
 /** Class representing fake Pusher. */
 class PusherMock {
   public channels: IChannels;
+  public id: string;
+  public info: Record<string, any>;
 
-  /** Initialize PusherMock with empty channels object. */
-  constructor() {
+  /** Initialize PusherMock with empty channels object and generatedId if not provided. */
+  constructor(
+    id: string = Math.random()
+      .toString(36)
+      .substr(2, 9),
+    info: Record<string, any> = {}
+  ) {
     this.channels = {};
+    this.id = id;
+    this.info = info;
   }
 
   /**
@@ -20,11 +31,14 @@ class PusherMock {
    * @returns {PusherChannelMock} PusherChannelMock object that represents channel
    */
   public channel(name: string) {
+    const presenceChannel = name.includes('presence-');
     if (!this.channels[name]) {
-      this.channels[name] = new PusherChannelMock();
+      this.channels[name] = presenceChannel
+        ? new PusherPresenceChannelMock(name)
+        : new PusherChannelMock(name);
     }
 
-    return this.channels[name];
+    return presenceChannel ? proxyPresenceChannel(this.channels[name], this) : this.channels[name];
   }
 
   /**
