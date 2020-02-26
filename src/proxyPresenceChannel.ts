@@ -1,6 +1,6 @@
 import { PusherMock, PusherPresenceChannelMock } from '.';
 
-interface IProxiedCallback {
+export interface IProxiedCallback {
   (): () => void;
   owner: string;
 }
@@ -10,21 +10,6 @@ interface IProxiedCallback {
  * shared members object whilst passing our own ID & me properties
  */
 export const proxyPresenceChannel = (channel: PusherPresenceChannelMock, client: PusherMock) => {
-  /** Add the member to the members object when  */
-  channel.members.addMember({
-    user_id: client.id,
-    user_info: client.info,
-  });
-
-  // emit channel events
-  channel.emit('pusher:subscription_succeeded', {
-    members: channel.members,
-  });
-  channel.emit('pusher:member_added', {
-    id: client.id,
-    info: client.info,
-  });
-
   // proxy the request so me and myID remain unique to the client in question
   const handler = {
     get(target: PusherPresenceChannelMock, name: keyof PusherPresenceChannelMock) {
@@ -46,11 +31,19 @@ export const proxyPresenceChannel = (channel: PusherPresenceChannelMock, client:
         case 'emit':
           return function emit(eventName: string, data?: any) {
             const callbacks = target.callbacks[eventName];
+            const internals = ['pusher:subscription_succeeded'];
+
             if (callbacks) {
-              callbacks.forEach(
-                (cb: (data?: any) => void) =>
-                  (cb as IProxiedCallback).owner !== client.id && cb(data)
-              );
+              callbacks.forEach((cb: (data?: any) => void) => {
+                // if the eventName is internal, only call this callback if the owner is me
+                // if the eventName isn't internal, only call this callback if the owner is not me
+                if (
+                  (internals.includes(eventName) && (cb as IProxiedCallback).owner === client.id) ||
+                  (!internals.includes(eventName) && (cb as IProxiedCallback).owner !== client.id)
+                ) {
+                  cb(data);
+                }
+              });
             }
           };
         case 'IS_PROXY':
@@ -63,5 +56,22 @@ export const proxyPresenceChannel = (channel: PusherPresenceChannelMock, client:
     },
   };
 
-  return new Proxy(channel, handler);
+  const proxiedChannel = new Proxy(channel, handler);
+
+  setTimeout(() => {
+    proxiedChannel.members.addMember({
+      user_id: client.id,
+      user_info: client.info,
+    });
+
+    /** Add the member to the members object when proxied.  */
+    proxiedChannel.emit('pusher:member_added', {
+      id: client.id,
+      info: client.info,
+    });
+
+    proxiedChannel.emit('pusher:subscription_succeeded', proxiedChannel.members);
+  });
+
+  return proxiedChannel;
 };

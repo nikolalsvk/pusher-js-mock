@@ -1,5 +1,5 @@
 import { PusherMock, PusherPresenceChannelMock } from '../';
-import { proxyPresenceChannel } from '../proxyPresenceChannel';
+import { proxyPresenceChannel, IProxiedCallback } from '../proxyPresenceChannel';
 
 describe('PusherPresenceChannelMock', () => {
   let channelMock: PusherPresenceChannelMock;
@@ -30,6 +30,7 @@ describe('Proxied PusherPresenceChannelMock', () => {
   let otherProxiedChannelMock: PusherPresenceChannelMock;
 
   beforeEach(() => {
+    jest.useFakeTimers();
     const client = new PusherMock('my-id', {});
     const otherClient = new PusherMock('your-id', {});
 
@@ -43,12 +44,14 @@ describe('Proxied PusherPresenceChannelMock', () => {
   });
 
   it(' add new members to the channel', () => {
+    jest.runAllTimers();
     expect(channelMock.members.count).toBe(2);
     expect(channelMock.members.get('my-id')).toEqual({ id: 'my-id', info: {} });
     expect(channelMock.members.get('your-id')).toEqual({ id: 'your-id', info: {} });
   });
 
   it(' correctly proxies the channel object per client', () => {
+    jest.runAllTimers();
     expect(channelMock.myID).toBeUndefined;
     expect(channelMock.me).toBeUndefined();
     expect(channelMock.IS_PROXY).toBeUndefined();
@@ -59,13 +62,13 @@ describe('Proxied PusherPresenceChannelMock', () => {
   });
 
   it(' allows multiple clients to subscribe', () => {
+    jest.runAllTimers();
     expect(proxiedChannelMock.myID).toBe('my-id');
     expect(otherProxiedChannelMock.myID).toBe('your-id');
-
     expect(channelMock.members.count).toBe(2);
   });
 
-  describe('callback is not defined for given channel name', () => {
+  describe(' callback is not defined for given channel name', () => {
     it('returns null', () => {
       const callback = jest.fn();
       proxiedChannelMock.emit('custom-event');
@@ -91,6 +94,14 @@ describe('Proxied PusherPresenceChannelMock', () => {
     // cleanup
     proxiedChannelMock.unbind('custom-event', listener);
     otherProxiedChannelMock.unbind('custom-event', otherListener);
+  });
+
+  it(' should trigger internal events such as pusher:subscription_succeeded', () => {
+    const listener = jest.fn() as any;
+    const channel = proxyPresenceChannel(new PusherPresenceChannelMock(), new PusherMock('my-id'));
+    channel.bind('pusher:subscription_succeeded', listener);
+    jest.runAllTimers();
+    expect(listener).toHaveBeenCalled();
   });
 
   describe('#trigger', () => {

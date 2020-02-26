@@ -18,8 +18,8 @@ export default class Members {
   myID: any;
   me: any;
 
-  constructor() {
-    this.reset();
+  constructor(members?: any) {
+    this.reset(members);
   }
 
   /** Returns member's info for given id.
@@ -70,8 +70,8 @@ export default class Members {
   }
 
   /** Resets the collection to the initial state. For internal use only. */
-  reset() {
-    this.members = {};
+  reset(members?: any) {
+    this.members = members || {};
     this.count = 0;
     this.myID = null;
     this.me = null;
