@@ -49,11 +49,13 @@ describe('Proxied PusherPresenceChannelMock', () => {
   });
 
   it(' correctly proxies the channel object per client', () => {
-    expect(channelMock.myID).toBe(undefined);
-    expect(channelMock.me).toBe(undefined);
+    expect(channelMock.myID).toBeUndefined;
+    expect(channelMock.me).toBeUndefined();
+    expect(channelMock.IS_PROXY).toBeUndefined();
 
     expect(proxiedChannelMock.myID).toBe('my-id');
     expect(proxiedChannelMock.me).toEqual({ id: 'my-id', info: {} });
+    expect(proxiedChannelMock.IS_PROXY).toBeDefined();
   });
 
   it(' allows multiple clients to subscribe', () => {
@@ -125,6 +127,9 @@ describe('Shared instance multiple clients', () => {
     sameChannel.emit('client-event');
     expect(listener).toHaveBeenCalledTimes(1);
     expect(otherListener).toHaveBeenCalledTimes(1);
+
+    expect(channel.myID).toBe('my-id');
+    expect(sameChannel.myID).toBe('your-id');
 
     // cleanup
     client.unsubscribe('presence-channel');

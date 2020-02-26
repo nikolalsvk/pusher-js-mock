@@ -53,6 +53,8 @@ export const proxyPresenceChannel = (channel: PusherPresenceChannelMock, client:
               );
             }
           };
+        case 'IS_PROXY':
+          return true;
 
         // return other class members as they were
         default:
