@@ -15,6 +15,7 @@ class PusherPresenceChannelMock extends PusherChannelMock {
 
   /** Alias to match actual API for client events */
   public trigger = this.emit;
+  public IS_PROXY?: boolean;
 
   /**
    * Initialise members object when created.

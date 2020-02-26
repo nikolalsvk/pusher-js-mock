@@ -49,11 +49,13 @@ describe('Proxied PusherPresenceChannelMock', () => {
   });
 
   it(' correctly proxies the channel object per client', () => {
-    expect(channelMock.myID).toBe(undefined);
-    expect(channelMock.me).toBe(undefined);
+    expect(channelMock.myID).toBeUndefined;
+    expect(channelMock.me).toBeUndefined();
+    expect(channelMock.IS_PROXY).toBeUndefined();
 
     expect(proxiedChannelMock.myID).toBe('my-id');
     expect(proxiedChannelMock.me).toEqual({ id: 'my-id', info: {} });
+    expect(proxiedChannelMock.IS_PROXY).toBeDefined();
   });
 
   it(' allows multiple clients to subscribe', () => {
@@ -98,5 +100,39 @@ describe('Proxied PusherPresenceChannelMock', () => {
       channelMock.trigger('event');
       expect(callback).toHaveBeenCalled();
     });
+  });
+});
+
+describe('Shared instance multiple clients', () => {
+  it(' should trigger events cross-client', () => {
+    // unique clients
+    const client = new PusherMock('my-id', {});
+    const otherClient = new PusherMock('your-id', {});
+
+    // subscribe to the same channel
+    const channel = client.subscribe('presence-channel');
+    const sameChannel = otherClient.subscribe('presence-channel');
+
+    // binding to the same event
+    const listener = jest.fn();
+    channel.bind('client-event', listener);
+    const otherListener = jest.fn();
+    sameChannel.bind('client-event', otherListener);
+
+    // should receive the others events
+    channel.emit('client-event');
+    expect(listener).toHaveBeenCalledTimes(0);
+    expect(otherListener).toHaveBeenCalledTimes(1);
+
+    sameChannel.emit('client-event');
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect(otherListener).toHaveBeenCalledTimes(1);
+
+    expect(channel.myID).toBe('my-id');
+    expect(sameChannel.myID).toBe('your-id');
+
+    // cleanup
+    client.unsubscribe('presence-channel');
+    otherClient.unsubscribe('presence-channel');
   });
 });
