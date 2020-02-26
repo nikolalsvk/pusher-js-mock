@@ -90,4 +90,13 @@ describe('Proxied PusherPresenceChannelMock', () => {
     proxiedChannelMock.unbind('custom-event', listener);
     otherProxiedChannelMock.unbind('custom-event', otherListener);
   });
+
+  describe('#trigger', () => {
+    it(' is an alias for emit', () => {
+      let callback = jest.fn();
+      channelMock.bind('event', callback);
+      channelMock.trigger('event');
+      expect(callback).toHaveBeenCalled();
+    });
+  });
 });

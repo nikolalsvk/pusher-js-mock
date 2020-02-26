@@ -13,6 +13,9 @@ class PusherPresenceChannelMock extends PusherChannelMock {
   public me: Member<Record<string, any>> | undefined;
   public myID: string | undefined;
 
+  /** Alias to match actual API for client events */
+  public trigger = this.emit;
+
   /**
    * Initialise members object when created.
    * `pusher-js` provides all the functionality we need.
