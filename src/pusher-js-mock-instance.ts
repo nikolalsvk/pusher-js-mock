@@ -9,7 +9,7 @@ export interface IChannels {
   [name: string]: any;
 }
 
-class MockPusherInstance {
+class PusherMockInstance {
   public channels: IChannels;
 
   constructor() {
@@ -34,4 +34,4 @@ class MockPusherInstance {
   }
 }
 
-export default new MockPusherInstance();
+export default new PusherMockInstance();

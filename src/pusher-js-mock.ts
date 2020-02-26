@@ -1,11 +1,11 @@
-import mockPusherInstance from './pusher-js-mock-instance';
+import PusherMockInstance from './pusher-js-mock-instance';
 
 /** Class representing fake Pusher Client. */
 class PusherMock {
   public id: string;
   public info: Record<string, any>;
-  public channels = mockPusherInstance.channels;
-  public channel = mockPusherInstance.channel;
+  public channels = PusherMockInstance.channels;
+  public channel = PusherMockInstance.channel;
 
   /** Initialize PusherMock with empty channels object and generatedId if not provided. */
   constructor(
@@ -24,7 +24,7 @@ class PusherMock {
    * @returns {PusherChannelMock} PusherChannelMock object that represents channel
    */
   public subscribe(name: string) {
-    return mockPusherInstance.channel(name, this);
+    return PusherMockInstance.channel(name, this);
   }
 
   /**
@@ -32,9 +32,9 @@ class PusherMock {
    * @param {String} name - name of the channel.
    */
   public unsubscribe(name: string) {
-    if (name in mockPusherInstance.channels) {
-      mockPusherInstance.channels[name].callbacks = {};
-      delete mockPusherInstance.channels[name];
+    if (name in PusherMockInstance.channels) {
+      PusherMockInstance.channels[name].callbacks = {};
+      delete PusherMockInstance.channels[name];
     }
   }
 }
