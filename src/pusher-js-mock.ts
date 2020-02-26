@@ -1,17 +1,11 @@
-import { proxyPresenceChannel } from './proxyPresenceChannel';
-import PusherChannelMock from './pusher-channel-mock';
-import PusherPresenceChannelMock from './pusher-presence-channel-mock';
+import mockPusherInstance from './pusher-js-mock-instance';
 
-/** Interface for storing channels */
-interface IChannels {
-  [name: string]: any;
-}
-
-/** Class representing fake Pusher. */
+/** Class representing fake Pusher Client. */
 class PusherMock {
-  public channels: IChannels;
   public id: string;
   public info: Record<string, any>;
+  public channels = mockPusherInstance.channels;
+  public channel = mockPusherInstance.channel;
 
   /** Initialize PusherMock with empty channels object and generatedId if not provided. */
   constructor(
@@ -20,25 +14,8 @@ class PusherMock {
       .substr(2, 9),
     info: Record<string, any> = {}
   ) {
-    this.channels = {};
     this.id = id;
     this.info = info;
-  }
-
-  /**
-   * Get channel by its name.
-   * @param {String} name - name of the channel.
-   * @returns {PusherChannelMock} PusherChannelMock object that represents channel
-   */
-  public channel(name: string) {
-    const presenceChannel = name.includes('presence-');
-    if (!this.channels[name]) {
-      this.channels[name] = presenceChannel
-        ? new PusherPresenceChannelMock(name)
-        : new PusherChannelMock(name);
-    }
-
-    return presenceChannel ? proxyPresenceChannel(this.channels[name], this) : this.channels[name];
   }
 
   /**
@@ -47,7 +24,7 @@ class PusherMock {
    * @returns {PusherChannelMock} PusherChannelMock object that represents channel
    */
   public subscribe(name: string) {
-    return this.channel(name);
+    return mockPusherInstance.channel(name, this);
   }
 
   /**
@@ -55,9 +32,9 @@ class PusherMock {
    * @param {String} name - name of the channel.
    */
   public unsubscribe(name: string) {
-    if (name in this.channels) {
-      this.channels[name].callbacks = {};
-      delete this.channels[name];
+    if (name in mockPusherInstance.channels) {
+      mockPusherInstance.channels[name].callbacks = {};
+      delete mockPusherInstance.channels[name];
     }
   }
 }

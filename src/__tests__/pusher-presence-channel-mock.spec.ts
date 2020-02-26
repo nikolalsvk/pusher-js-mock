@@ -100,3 +100,34 @@ describe('Proxied PusherPresenceChannelMock', () => {
     });
   });
 });
+
+describe('Shared instance multiple clients', () => {
+  it(' should trigger events cross-client', () => {
+    // unique clients
+    const client = new PusherMock('my-id', {});
+    const otherClient = new PusherMock('your-id', {});
+
+    // subscribe to the same channel
+    const channel = client.subscribe('presence-channel');
+    const sameChannel = otherClient.subscribe('presence-channel');
+
+    // binding to the same event
+    const listener = jest.fn();
+    channel.bind('client-event', listener);
+    const otherListener = jest.fn();
+    sameChannel.bind('client-event', otherListener);
+
+    // should receive the others events
+    channel.emit('client-event');
+    expect(listener).toHaveBeenCalledTimes(0);
+    expect(otherListener).toHaveBeenCalledTimes(1);
+
+    sameChannel.emit('client-event');
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect(otherListener).toHaveBeenCalledTimes(1);
+
+    // cleanup
+    client.unsubscribe('presence-channel');
+    otherClient.unsubscribe('presence-channel');
+  });
+});

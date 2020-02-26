@@ -26,6 +26,9 @@ describe('PusherMock', () => {
     it('returns the correct type of channel based on channel name', () => {
       expect(pusherMock.channel('public-channel')).toBeInstanceOf(PusherChannelMock);
       expect(pusherMock.channel('presence-channel')).toBeInstanceOf(PusherPresenceChannelMock);
+
+      pusherMock.unsubscribe('public-channel');
+      pusherMock.unsubscribe('presence-channel');
     });
 
     describe('channel is already added to channels object', () => {
