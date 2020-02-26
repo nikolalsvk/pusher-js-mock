@@ -10,6 +10,8 @@ declare class PusherPresenceChannelMock extends PusherChannelMock {
     members: Members;
     me: Member<Record<string, any>> | undefined;
     myID: string | undefined;
+    /** Alias to match actual API for client events */
+    trigger: (name: string, data?: any) => void;
     /**
      * Initialise members object when created.
      * `pusher-js` provides all the functionality we need.
