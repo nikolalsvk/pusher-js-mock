@@ -1,20 +1,11 @@
-/** Interface for storing channels */
-interface IChannels {
-    [name: string]: any;
-}
-/** Class representing fake Pusher. */
+/** Class representing fake Pusher Client. */
 declare class PusherMock {
-    channels: IChannels;
     id: string;
     info: Record<string, any>;
+    channels: import("./pusher-js-mock-instance").IChannels;
+    channel: (name: string, client?: PusherMock) => any;
     /** Initialize PusherMock with empty channels object and generatedId if not provided. */
     constructor(id?: string, info?: Record<string, any>);
-    /**
-     * Get channel by its name.
-     * @param {String} name - name of the channel.
-     * @returns {PusherChannelMock} PusherChannelMock object that represents channel
-     */
-    channel(name: string): any;
     /**
      * Mock subscribing to a channel.
      * @param {String} name - name of the channel.
