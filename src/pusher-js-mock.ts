@@ -15,6 +15,16 @@ class PusherMock {
   constructor(clientKey?: string, config?: Config) {
     this.clientKey = clientKey;
     this.config = config;
+    this.setAuthInfo = this.setAuthInfo.bind(this);
+    this.subscribe = this.subscribe.bind(this);
+    this.unsubscribe = this.unsubscribe.bind(this);
+  }
+
+  public setAuthInfo(errored: boolean, auth: any) {
+    if (!errored) {
+      this.id = auth.id;
+      this.info = auth.info;
+    }
   }
 
   /**
@@ -24,22 +34,16 @@ class PusherMock {
    */
   public subscribe(name: string) {
     if (name.includes('presence-')) {
-      const callback = (errored: boolean, auth: any) => {
-        if (!errored) {
-          this.id = auth.id;
-          this.info = auth.info;
-        }
-      };
-
       this.config?.authorizer
-        ? this.config.authorizer({} as any, {}).authorize({ name } as any, callback)
-        : callback(false, {
+        ? this.config.authorizer({} as any, {}).authorize({ name } as any, this.setAuthInfo)
+        : this.setAuthInfo(false, {
             id: Math.random()
               .toString(36)
               .substr(2, 9),
             info: {},
           } as any);
     }
+
     return PusherMockInstance.channel(name, this);
   }
 

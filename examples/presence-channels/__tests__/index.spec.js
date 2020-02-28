@@ -9,8 +9,11 @@ global.fetch = jest
   );
 
 test('should mock presence channels', () => {
+  jest.useFakeTimers();
   const pusher = createClient({ id: 'my-id', info: { role: 'moderator' } });
   const channel = pusher.subscribe('presence-channel');
+  // required as we add the member to the channel on the next tick
+  jest.runAllTimers();
 
   expect(channel.members).toEqual({
     count: 1,

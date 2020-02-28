@@ -1,4 +1,3 @@
-import { Member } from 'pusher-js';
 import Members from './members';
 import PusherChannelMock from './pusher-channel-mock';
 
@@ -10,8 +9,6 @@ export interface IMember {
 /** Basic augmentation of the PusherChannel class. */
 class PusherPresenceChannelMock extends PusherChannelMock {
   public members: Members;
-  public me: Member<Record<string, any>> | undefined;
-  public myID: string | undefined;
 
   /** Alias to match actual API for client events */
   public trigger = this.emit;

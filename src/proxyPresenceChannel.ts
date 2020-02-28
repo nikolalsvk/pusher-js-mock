@@ -12,14 +12,19 @@ export interface IProxiedCallback {
 export const proxyPresenceChannel = (channel: PusherPresenceChannelMock, client: PusherMock) => {
   // proxy the request so me and myID remain unique to the client in question
   const handler = {
-    get(target: PusherPresenceChannelMock, name: keyof PusherPresenceChannelMock) {
-      switch (name) {
+    get(target: PusherPresenceChannelMock, key: keyof PusherPresenceChannelMock) {
+      switch (key) {
         // attach this client's info the member specific calls
-        case 'me':
-          return client.id && target.members.get(client.id);
-        case 'myID':
-          return client.id;
-
+        case 'members':
+          const original = target[key];
+          // if (client.id) {
+          original.myID = client.id;
+          original.me = {
+            id: client.id,
+            info: client.info,
+          };
+          // }
+          return original;
         // attach the owner of the callback so we can ignore it in future
         case 'bind':
           return function bind(eventName: string, callback: IProxiedCallback) {
@@ -53,7 +58,7 @@ export const proxyPresenceChannel = (channel: PusherPresenceChannelMock, client:
 
         // return other class members as they were
         default:
-          return target[name];
+          return target[key];
       }
     },
   };

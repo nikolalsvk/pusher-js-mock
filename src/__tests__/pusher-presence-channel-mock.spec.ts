@@ -59,23 +59,23 @@ describe('Proxied PusherPresenceChannelMock', () => {
   });
 
   it(' add new members to the channel', () => {
+    jest.runAllTimers();
     expect(proxiedChannelMock.members.count).toBe(2);
     expect(proxiedChannelMock.members.get('my-id')).toEqual({ id: 'my-id', info: {} });
     expect(proxiedChannelMock.members.get('your-id')).toEqual({ id: 'your-id', info: {} });
   });
 
   it(' correctly proxies the channel object per client', () => {
-    expect(proxiedChannelMock.IS_PROXY).toBeDefined();
-
-    expect(proxiedChannelMock.myID).toBe('my-id');
-    expect(proxiedChannelMock.me).toEqual({ id: 'my-id', info: {} });
+    jest.runAllTimers();
+    expect(proxiedChannelMock.members.myID).toBe('my-id');
+    expect(proxiedChannelMock.members.me).toEqual({ id: 'my-id', info: {} });
     expect(proxiedChannelMock.IS_PROXY).toBeDefined();
   });
 
   it(' allows multiple clients to subscribe', () => {
     jest.runAllTimers();
-    expect(proxiedChannelMock.myID).toBe('my-id');
-    expect(otherProxiedChannelMock.myID).toBe('your-id');
+    expect(proxiedChannelMock.members.myID).toBe('my-id');
+    expect(otherProxiedChannelMock.members.myID).toBe('your-id');
 
     expect(proxiedChannelMock.members.count).toBe(2);
   });
@@ -110,7 +110,7 @@ describe('Proxied PusherPresenceChannelMock', () => {
 
   it(' should trigger internal events such as pusher:subscription_succeeded', () => {
     const listener = jest.fn() as any;
-    const channel = proxyPresenceChannel(new PusherPresenceChannelMock(), new PusherMock('my-id'));
+    const channel = proxyPresenceChannel(new PusherPresenceChannelMock(), client);
     channel.bind('pusher:subscription_succeeded', listener);
     jest.runAllTimers();
     expect(listener).toHaveBeenCalled();
@@ -141,8 +141,8 @@ describe('Proxied PusherPresenceChannelMock', () => {
       expect(listener).toHaveBeenCalledTimes(1);
       expect(otherListener).toHaveBeenCalledTimes(1);
 
-      expect(proxiedChannelMock.myID).toBe('my-id');
-      expect(otherProxiedChannelMock.myID).toBe('your-id');
+      expect(proxiedChannelMock.members.myID).toBe('my-id');
+      expect(otherProxiedChannelMock.members.myID).toBe('your-id');
 
       // cleanup
       client.unsubscribe('presence-channel');

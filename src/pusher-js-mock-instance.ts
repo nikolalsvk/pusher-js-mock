@@ -14,6 +14,7 @@ class PusherMockInstance {
 
   constructor() {
     this.channels = {};
+    this.channel = this.channel.bind(this);
   }
   /**
    * Get channel by its name.
