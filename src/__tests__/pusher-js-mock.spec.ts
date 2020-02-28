@@ -73,4 +73,27 @@ describe('PusherMock', () => {
       });
     });
   });
+
+  describe('authorizer', () => {
+    it('should set a default ID and info if presence channel used and no auth config passed', () => {
+      pusherMock.subscribe('presence-channel');
+      expect(pusherMock.id).toBeDefined();
+      expect(pusherMock.info).toBeDefined();
+    });
+
+    it('should leave id and info undefined if auth errored', () => {
+      pusherMock.config = {
+        authorizer: () => ({
+          authorize: (socketId, callback) => {
+            callback(true, undefined);
+          },
+        }),
+      };
+
+      pusherMock.subscribe('presence-channel');
+
+      expect(pusherMock.id).toBeUndefined();
+      expect(pusherMock.info).toBeUndefined();
+    });
+  });
 });

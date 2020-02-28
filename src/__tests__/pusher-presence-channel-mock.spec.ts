@@ -1,5 +1,5 @@
 import { PusherMock, PusherPresenceChannelMock } from '../';
-import { proxyPresenceChannel } from '../proxyPresenceChannel';
+import { AuthInfo } from 'pusher-js';
 
 describe('PusherPresenceChannelMock', () => {
   let channelMock: PusherPresenceChannelMock;
@@ -25,17 +25,31 @@ describe('PusherPresenceChannelMock', () => {
 });
 
 describe('Proxied PusherPresenceChannelMock', () => {
-  let channelMock: PusherPresenceChannelMock;
+  let client: PusherMock;
+  let otherClient: PusherMock;
   let proxiedChannelMock: PusherPresenceChannelMock;
   let otherProxiedChannelMock: PusherPresenceChannelMock;
 
-  beforeEach(() => {
-    const client = new PusherMock('my-id', {});
-    const otherClient = new PusherMock('your-id', {});
+  const PRESENCE_CHANNEL = 'presence-channel';
 
-    channelMock = new PusherPresenceChannelMock();
-    proxiedChannelMock = proxyPresenceChannel(channelMock, client);
-    otherProxiedChannelMock = proxyPresenceChannel(channelMock, otherClient);
+  beforeEach(() => {
+    client = new PusherMock('key', {
+      authorizer: () => ({
+        authorize: (socketId, callback) => {
+          callback(false, ({ id: 'my-id', info: {} } as unknown) as AuthInfo);
+        },
+      }),
+    });
+    otherClient = new PusherMock('key', {
+      authorizer: () => ({
+        authorize: (socketId, callback) => {
+          callback(false, ({ id: 'your-id', info: {} } as unknown) as AuthInfo);
+        },
+      }),
+    });
+
+    proxiedChannelMock = client.subscribe(PRESENCE_CHANNEL);
+    otherProxiedChannelMock = otherClient.subscribe(PRESENCE_CHANNEL);
   });
 
   it(" doesn't proxy class members it doesn't care about", () => {
@@ -43,15 +57,13 @@ describe('Proxied PusherPresenceChannelMock', () => {
   });
 
   it(' add new members to the channel', () => {
-    expect(channelMock.members.count).toBe(2);
-    expect(channelMock.members.get('my-id')).toEqual({ id: 'my-id', info: {} });
-    expect(channelMock.members.get('your-id')).toEqual({ id: 'your-id', info: {} });
+    expect(proxiedChannelMock.members.count).toBe(2);
+    expect(proxiedChannelMock.members.get('my-id')).toEqual({ id: 'my-id', info: {} });
+    expect(proxiedChannelMock.members.get('your-id')).toEqual({ id: 'your-id', info: {} });
   });
 
   it(' correctly proxies the channel object per client', () => {
-    expect(channelMock.myID).toBeUndefined;
-    expect(channelMock.me).toBeUndefined();
-    expect(channelMock.IS_PROXY).toBeUndefined();
+    expect(proxiedChannelMock.IS_PROXY).toBeDefined();
 
     expect(proxiedChannelMock.myID).toBe('my-id');
     expect(proxiedChannelMock.me).toEqual({ id: 'my-id', info: {} });
@@ -62,7 +74,7 @@ describe('Proxied PusherPresenceChannelMock', () => {
     expect(proxiedChannelMock.myID).toBe('my-id');
     expect(otherProxiedChannelMock.myID).toBe('your-id');
 
-    expect(channelMock.members.count).toBe(2);
+    expect(proxiedChannelMock.members.count).toBe(2);
   });
 
   describe('callback is not defined for given channel name', () => {
@@ -96,43 +108,42 @@ describe('Proxied PusherPresenceChannelMock', () => {
   describe('#trigger', () => {
     it(' is an alias for emit', () => {
       let callback = jest.fn();
-      channelMock.bind('event', callback);
-      channelMock.trigger('event');
+      proxiedChannelMock.bind('event', callback);
+      proxiedChannelMock.trigger('event');
       expect(callback).toHaveBeenCalled();
     });
   });
-});
+  describe('Shared instance multiple clients', () => {
+    it(' should trigger events cross-client', () => {
+      // binding to the same event
+      const listener = jest.fn();
+      proxiedChannelMock.bind('client-event', listener);
+      const otherListener = jest.fn();
+      otherProxiedChannelMock.bind('client-event', otherListener);
 
-describe('Shared instance multiple clients', () => {
-  it(' should trigger events cross-client', () => {
-    // unique clients
-    const client = new PusherMock('my-id', {});
-    const otherClient = new PusherMock('your-id', {});
+      // should receive the others events
+      proxiedChannelMock.emit('client-event');
+      expect(listener).toHaveBeenCalledTimes(0);
+      expect(otherListener).toHaveBeenCalledTimes(1);
 
-    // subscribe to the same channel
-    const channel = client.subscribe('presence-channel');
-    const sameChannel = otherClient.subscribe('presence-channel');
+      otherProxiedChannelMock.emit('client-event');
+      expect(listener).toHaveBeenCalledTimes(1);
+      expect(otherListener).toHaveBeenCalledTimes(1);
 
-    // binding to the same event
-    const listener = jest.fn();
-    channel.bind('client-event', listener);
-    const otherListener = jest.fn();
-    sameChannel.bind('client-event', otherListener);
+      expect(proxiedChannelMock.myID).toBe('my-id');
+      expect(otherProxiedChannelMock.myID).toBe('your-id');
 
-    // should receive the others events
-    channel.emit('client-event');
-    expect(listener).toHaveBeenCalledTimes(0);
-    expect(otherListener).toHaveBeenCalledTimes(1);
+      // cleanup
+      client.unsubscribe('presence-channel');
+      otherClient.unsubscribe('presence-channel');
+    });
+  });
 
-    sameChannel.emit('client-event');
-    expect(listener).toHaveBeenCalledTimes(1);
-    expect(otherListener).toHaveBeenCalledTimes(1);
-
-    expect(channel.myID).toBe('my-id');
-    expect(sameChannel.myID).toBe('your-id');
-
-    // cleanup
-    client.unsubscribe('presence-channel');
-    otherClient.unsubscribe('presence-channel');
+  describe('#bind', () => {
+    it('should not bind if client.id is undefined', () => {
+      client.id = undefined;
+      proxiedChannelMock.bind('never-bound-event', () => {});
+      expect(proxiedChannelMock.callbacks['never-bound-event']).toBeUndefined();
+    });
   });
 });

@@ -1,17 +1,17 @@
-import PusherClassExample, { MESSAGE_CHANNEL } from '../index'
+import PusherClassExample from '../index';
 
 jest.mock('pusher-js', () => {
-  const Pusher = require('pusher-js-mock').PusherMock
+  const Pusher = require('pusher-js-mock').PusherMock;
 
-  return Pusher
-})
+  return Pusher;
+});
 
 describe('PusherClassExample', () => {
   let chat;
 
   beforeEach(() => {
-    chat = new PusherClassExample()
-  })
+    chat = new PusherClassExample();
+  });
 
   describe('listenForMessages', () => {
     it('should subscribe to MESSAGE_CHANNEL properly', () => {
@@ -57,4 +57,4 @@ describe('PusherClassExample', () => {
       messages.unbind('new-message', onNewMessage);
     });
   });
-})
+});

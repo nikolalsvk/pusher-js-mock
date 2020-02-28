@@ -31,15 +31,17 @@ export const proxyPresenceChannel = (channel: PusherPresenceChannelMock, client:
       switch (name) {
         // attach this client's info the member specific calls
         case 'me':
-          return target.members.get(client.id);
+          return client.id && target.members.get(client.id);
         case 'myID':
           return client.id;
 
         // attach the owner of the callback so we can ignore it in future
         case 'bind':
           return function bind(eventName: string, callback: IProxiedCallback) {
-            callback.owner = client.id;
-            target.bind(eventName, callback);
+            if (client.id) {
+              callback.owner = client.id;
+              target.bind(eventName, callback);
+            }
           };
 
         // check the owner of the callback is not this client and then trigger it.
@@ -48,8 +50,8 @@ export const proxyPresenceChannel = (channel: PusherPresenceChannelMock, client:
             const callbacks = target.callbacks[eventName];
             if (callbacks) {
               callbacks.forEach(
-                (cb: (data?: any) => void) =>
-                  (cb as IProxiedCallback).owner !== client.id && cb(data)
+                (cb: (data: any, metadata: any) => void) =>
+                  (cb as IProxiedCallback).owner !== client.id && cb(data, { user_id: client.id })
               );
             }
           };
