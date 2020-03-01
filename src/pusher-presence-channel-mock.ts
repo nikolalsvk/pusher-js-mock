@@ -1,5 +1,5 @@
-import Members from './members';
-import PusherChannelMock from './pusher-channel-mock';
+import Members from "./members";
+import PusherChannelMock from "./pusher-channel-mock";
 
 export interface IMember {
   id: string;
@@ -17,8 +17,10 @@ class PusherPresenceChannelMock extends PusherChannelMock {
   /**
    * Initialise members object when created.
    * `pusher-js` provides all the functionality we need.
+   * @param name The name of the channel to initialise
+   * @returns PusherPresenceChannelMock the mocked presence channel
    */
-  constructor(name: string = 'presence-channel') {
+  constructor(name: string = "presence-channel") {
     super(name);
     this.members = new Members();
   }

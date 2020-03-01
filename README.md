@@ -84,7 +84,9 @@ This package also supports using presence channels for multiple clients. You can
 
 ```js
 // createClient.js
+
 import Pusher from 'pusher-js';
+// Example of creating a client in your own application
 export const createClient = ({ id, info }) =>
   new Pusher(APP_KEY, {
     cluster: APP_CLUSTER,
@@ -101,6 +103,7 @@ export const createClient = ({ id, info }) =>
 
 ```js
 // pusherInstance.spec.js
+
 import { createClient } from './create-client';
 jest.mock('pusher-js', () => require('pusher-js-mock').PusherMock);
 

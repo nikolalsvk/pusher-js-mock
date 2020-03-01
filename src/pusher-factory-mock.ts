@@ -1,4 +1,4 @@
-import PusherMock from './pusher-js-mock';
+import PusherMock from "./pusher-js-mock";
 
 /**
  * Class represents fake PusherFactory.

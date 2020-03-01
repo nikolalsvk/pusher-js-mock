@@ -1,5 +1,5 @@
-import { Config } from 'pusher-js';
-import PusherMockInstance from './pusher-js-mock-instance';
+import { Config } from "pusher-js";
+import PusherMockInstance from "./pusher-js-mock-instance";
 
 /** Class representing fake Pusher Client. */
 class PusherMock {
@@ -33,9 +33,11 @@ class PusherMock {
    * @returns {PusherChannelMock} PusherChannelMock object that represents channel
    */
   public subscribe(name: string) {
-    if (name.includes('presence-')) {
+    if (name.includes("presence-")) {
       this.config?.authorizer
-        ? this.config.authorizer({} as any, {}).authorize({ name } as any, this.setAuthInfo)
+        ? this.config
+            .authorizer({} as any, {})
+            .authorize({ name } as any, this.setAuthInfo)
         : this.setAuthInfo(false, {
             id: Math.random()
               .toString(36)
