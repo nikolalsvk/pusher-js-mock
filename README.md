@@ -115,6 +115,8 @@ This package also supports using presence channels for multiple clients. The moc
 ```js
 // createClient.js
 import Pusher from "pusher-js";
+import { getAuthSomehow } from "./getAuthSomehow";
+
 // Example of creating a client in your own application
 export const createClient = ({ id, info }) =>
   new Pusher(APP_KEY, {
@@ -130,7 +132,7 @@ export const createClient = ({ id, info }) =>
 ```
 
 ```js
-// pusherInstance.spec.js
+// createClient.spec.js
 import { createClient } from "./create-client";
 
 // mock the authorize function
