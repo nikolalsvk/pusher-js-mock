@@ -29,6 +29,7 @@ npm install -D pusher-js-mock
 - [Emitting an event in tests](#emitting-an-event-in-tests)
 - [Stubbing Pusher when imported from pusher-js package](#stubbing-pusher-when-imported-from-pusher-js-package)
 - [Stubbing Pusher when used as a global variable](#stubbing-pusher-when-used-as-a-global-variable)
+- [Mocking presence channels](#using-presence-channels)
 
 For more detailed examples, check out [`examples` directory](https://github.com/nikolalsvk/pusher-js-mock/tree/master/examples)
 inside the project!
@@ -42,16 +43,16 @@ If you need to mock a Pusher object in your tests that can
 subscribe to channel, it's best to use PusherMock.
 
 ```javascript
-import { PusherMock } from 'pusher-js-mock';
+import { PusherMock } from "pusher-js-mock";
 
 // initializing PusherMock
 const pusher = new PusherMock();
 
 // subscribing to a Pusher channel
-const channel = pusher.subscribe('my-channel');
+const channel = pusher.subscribe("my-channel");
 
 // emitting an event
-channel.emit('event-name');
+channel.emit("event-name");
 ```
 
 #### Stubbing Pusher when imported from pusher-js package
@@ -59,7 +60,7 @@ channel.emit('event-name');
 If you're using Pusher in your code in this or similar manner:
 
 ```javascript
-import Pusher from 'pusher-js';
+import Pusher from "pusher-js";
 ```
 
 You will need to mock Pusher in a specific way.
@@ -68,58 +69,14 @@ I suggest you use [Jest](https://jestjs.io/) to test your code.
 To do this in Jest, you'll need something like this:
 
 ```javascript
-jest.mock('pusher-js', () => {
-  const Pusher = require('pusher-js-mock').PusherMock;
-
+jest.mock("pusher-js", () => {
+  const Pusher = require("pusher-js-mock").PusherMock;
   return Pusher;
 });
 ```
 
 If you have tips on how to mock this using other testing frameworks, please
 submit an issue or a pull request.
-
-#### Using presence channels
-
-This package also supports using presence channels for multiple clients. You can pass in the ID and info you want this client to assume as additional arguments:
-
-```js
-// createClient.js
-
-import Pusher from 'pusher-js';
-// Example of creating a client in your own application
-export const createClient = ({ id, info }) =>
-  new Pusher(APP_KEY, {
-    cluster: APP_CLUSTER,
-    // see https://github.com/pusher/pusher-js#authorizer-function
-    authorizer: ({ name }) => ({
-      authorize: (socketId, callback) => {
-        fetch('https://my-auth-endpoint.com', {
-          body: JSON.stringify({ name, socketId, id, info }),
-        }).then(res => callback(false, res.json()));
-      },
-    }),
-  });
-```
-
-```js
-// pusherInstance.spec.js
-
-import { createClient } from './create-client';
-jest.mock('pusher-js', () => require('pusher-js-mock').PusherMock);
-
-// mock the response from the authorize endpoint
-global.fetch = jest
-  .fn()
-  .mockImplementation(() =>
-    Promise.resolve({ json: () => ({ id: 'my-id', info: { role: 'moderator' } }) })
-  );
-
-const pusher = createClient('my-id', { role: 'moderator' });
-const channel = pusher.subscribe('presence-channel');
-console.log(channel.myID); // => "my-id"
-console.log(channel.me); // => { id: "my-id", info: { role: "moderator" } }
-console.log(channel.members); // => { "my-id": { role: "moderator" } }
-```
 
 #### Stubbing Pusher when used as a global variable
 
@@ -138,7 +95,7 @@ window.PusherFactory = {
 It's best for you to use PusherFactoryMock.
 
 ```javascript
-import { PusherFactoryMock } from 'pusher-js-mock';
+import { PusherFactoryMock } from "pusher-js-mock";
 
 // initialize instance of PusherFactoryMock
 const pusherFactoryMock = new PusherFactoryMock();
@@ -150,6 +107,44 @@ pusher = pusherFactoryMock.pusherClient();
 ```
 
 This way you'll just replace your PusherFactory with PusherFactoryMock.
+
+#### Using presence channels
+
+This package also supports using presence channels for multiple clients. The mock
+
+```js
+// createClient.js
+import Pusher from "pusher-js";
+// Example of creating a client in your own application
+export const createClient = ({ id, info }) =>
+  new Pusher(APP_KEY, {
+    cluster: APP_CLUSTER,
+    // see https://github.com/pusher/pusher-js#authorizer-function
+    authorizer: ({ name }) => ({
+      authorize: (socketId, callback) => {
+        const auth = getAuthSomehow(id, info);
+        callback(auth);
+      },
+    }),
+  });
+```
+
+```js
+// pusherInstance.spec.js
+import { createClient } from "./create-client";
+
+// mock the authorize function
+jest.mock("./getAuthSomehow", (id, info) => ({ id, info }));
+
+// create it as you normally would
+const pusher = createClient({ id: "my-id", info: { role: "moderator" } });
+const channel = pusher.subscribe("presence-channel");
+console.log(channel.myID); // => "my-id"
+console.log(channel.me); // => { id: "my-id", info: { role: "moderator" } }
+console.log(channel.members); // => { "my-id": { role: "moderator" } }
+```
+
+[Check out a code example of using presence channels](https://github.com/nikolalsvk/pusher-js-mock/tree/master/examples/presence-channels)
 
 ### [Code of Conduct](CODE_OF_CODUCT.md)
 
