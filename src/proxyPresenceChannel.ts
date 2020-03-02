@@ -70,6 +70,7 @@ const proxyEmit = (original: PusherPresenceChannelMock, client: PusherMock) => (
 ) => {
   const callbacks = original.callbacks[eventName];
   const internals = ["pusher:subscription_succeeded"];
+
   if (callbacks) {
     callbacks.forEach((cb: (data?: any) => void) => {
       if (
@@ -133,24 +134,24 @@ const proxyChannel = (
  * @param client the client we're using to emit the connection events
  * @returns void
  */
-const emitConnectionEvents = (
+const emitConnectionEvents = async (
   channel: PusherPresenceChannelMock,
   client: PusherMock
 ) => {
   /** setTimeout simulates the async nature of adding members */
-  setTimeout(() => {
-    channel.members.addMember({
-      user_id: client.id,
-      user_info: client.info,
-    });
+  await Promise.resolve();
 
-    /** Add the member to the members object when proxied.  */
-    channel.emit("pusher:member_added", {
-      id: client.id,
-      info: client.info,
-    });
-
-    /** Emit internal event */
-    channel.emit("pusher:subscription_succeeded", channel.members);
+  channel.members.addMember({
+    user_id: client.id,
+    user_info: client.info,
   });
+
+  /** Add the member to the members object when proxied.  */
+  channel.emit("pusher:member_added", {
+    id: client.id,
+    info: client.info,
+  });
+
+  /** Emit internal event */
+  channel.emit("pusher:subscription_succeeded", channel.members);
 };

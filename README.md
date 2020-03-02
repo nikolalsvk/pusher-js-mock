@@ -113,37 +113,52 @@ This way you'll just replace your PusherFactory with PusherFactoryMock.
 This package also supports using presence channels for multiple clients. The mock
 
 ```js
-// createClient.js
+// create-client.js
 import Pusher from "pusher-js";
 import { getAuthSomehow } from "./getAuthSomehow";
 
-// Example of creating a client in your own application
 export const createClient = ({ id, info }) =>
-  new Pusher(APP_KEY, {
-    cluster: APP_CLUSTER,
+  new Pusher("APP_KEY", {
+    cluster: "APP_CLUSTER",
     // see https://github.com/pusher/pusher-js#authorizer-function
     authorizer: ({ name }) => ({
       authorize: (socketId, callback) => {
         const auth = getAuthSomehow(id, info);
-        callback(auth);
+        callback(false, auth);
       },
     }),
   });
+
+export default createClient;
 ```
 
 ```js
-// createClient.spec.js
-import { createClient } from "./create-client";
+// create-client.spec.js
+import createClient from "../create-client";
 
-// mock the authorize function
-jest.mock("./getAuthSomehow", (id, info) => ({ id, info }));
+// mock the authorize function and pusher
+jest.mock("pusher-js", () => require("pusher-js-mock"));
+jest.mock("../getAuthSomehow", () => ({
+  getAuthSomehow: (id, info) => ({ id, info }),
+}));
 
-// create it as you normally would
-const pusher = createClient({ id: "my-id", info: { role: "moderator" } });
-const channel = pusher.subscribe("presence-channel");
-console.log(channel.myID); // => "my-id"
-console.log(channel.me); // => { id: "my-id", info: { role: "moderator" } }
-console.log(channel.members); // => { "my-id": { role: "moderator" } }
+it("should create a presence channel", async () => {
+  // arrange: create pusher client
+  const pusher = createClient({ id: "my-id", info: { role: "moderator" } });
+
+  // act: required to ensure pusher events are called, i.e. pusher:member_added
+  const presenceChannel = await pusher.subscribe("presence-channel");
+
+  // assert: presenceChannel has the properties we expect it to.
+  expect(presenceChannel.members.myID).toBe("my-id");
+  expect(presenceChannel.members.me).toEqual({
+    id: "my-id",
+    info: { role: "moderator" },
+  });
+  expect(presenceChannel.members.members).toEqual({
+    "my-id": { role: "moderator" },
+  });
+});
 ```
 
 [Check out a code example of using presence channels](https://github.com/nikolalsvk/pusher-js-mock/tree/master/examples/presence-channels)

@@ -1,11 +1,6 @@
 import Members from "./members";
 import PusherChannelMock from "./pusher-channel-mock";
 
-export interface IMember {
-  id: string;
-  info: Record<string, any>;
-}
-
 /** Basic augmentation of the PusherChannel class. */
 class PusherPresenceChannelMock extends PusherChannelMock {
   public members: Members;
