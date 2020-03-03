@@ -1,5 +1,6 @@
 import { PusherMock, PusherPresenceChannelMock } from ".";
 import Members from "./members";
+import { emitConnectionEvents } from "./pusherEvents";
 
 export interface IProxiedCallback {
   (): (data?: any) => void;
@@ -126,32 +127,4 @@ const proxyChannel = (
   };
 
   return new Proxy(channel, handler);
-};
-
-/**
- * Emit connection events triggered by pusher
- * @param {PusherPresenceChannelMock} channel the channel we want to trigger this on
- * @param client the client we're using to emit the connection events
- * @returns void
- */
-const emitConnectionEvents = async (
-  channel: PusherPresenceChannelMock,
-  client: PusherMock
-) => {
-  /** setTimeout simulates the async nature of adding members */
-  await Promise.resolve();
-
-  channel.members.addMember({
-    user_id: client.id,
-    user_info: client.info,
-  });
-
-  /** Add the member to the members object when proxied.  */
-  channel.emit("pusher:member_added", {
-    id: client.id,
-    info: client.info,
-  });
-
-  /** Emit internal event */
-  channel.emit("pusher:subscription_succeeded", channel.members);
 };

@@ -1,5 +1,6 @@
 import { Config } from "pusher-js";
 import PusherMockInstance from "./pusher-js-mock-instance";
+import { emitDisconnectionEvents } from "./pusherEvents";
 
 /** Class representing fake Pusher Client. */
 class PusherMock {
@@ -55,6 +56,11 @@ class PusherMock {
    */
   public unsubscribe(name: string) {
     if (name in PusherMockInstance.channels) {
+      if (name.includes("presence-")) {
+        const channel = PusherMockInstance.channels[name];
+        emitDisconnectionEvents(channel, this);
+      }
+
       PusherMockInstance.channels[name].callbacks = {};
       delete PusherMockInstance.channels[name];
     }
