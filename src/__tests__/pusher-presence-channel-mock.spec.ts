@@ -1,6 +1,6 @@
 import { PusherMock, PusherPresenceChannelMock } from "../";
 import { AuthInfo } from "pusher-js";
-import { proxyPresenceChannel } from "../proxyPresenceChannel";
+import { proxyPresenceChannel } from "../proxy-presence-channel";
 
 describe("PusherPresenceChannelMock", () => {
   let channelMock: PusherPresenceChannelMock;

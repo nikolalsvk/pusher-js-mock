@@ -1,4 +1,4 @@
-import { proxyPresenceChannel } from "./proxyPresenceChannel";
+import { proxyPresenceChannel } from "./proxy-presence-channel";
 import PusherChannelMock from "./pusher-channel-mock";
 import PusherMock from "./pusher-js-mock";
 import PusherPresenceChannelMock from "./pusher-presence-channel-mock";
