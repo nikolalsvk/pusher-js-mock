@@ -1,6 +1,5 @@
 import { PusherMock, PusherPresenceChannelMock } from ".";
 import Members from "./members";
-import { emitConnectionEvents } from "./pusherEvents";
 
 export interface IProxiedCallback {
   (): (data?: any) => void;

@@ -32,6 +32,13 @@ class PusherMockInstance {
       ? proxyPresenceChannel(this.channels[name], client)
       : this.channels[name];
   }
+
+  /**
+   * Resets the instance to a fresh state, i.e. no channels.
+   */
+  public reset() {
+    this.channels = {};
+  }
 }
 
 export default new PusherMockInstance();

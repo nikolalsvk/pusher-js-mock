@@ -1,11 +1,14 @@
 import { PusherMock } from "../index";
 import PusherChannelMock from "../pusher-channel-mock";
 import PusherPresenceChannelMock from "../pusher-presence-channel-mock";
+import { createClient } from "./pusher-presence-channel-mock.spec";
+import PusherMockInstance from "../pusher-js-mock-instance";
 
 describe("PusherMock", () => {
   let pusherMock: PusherMock;
 
   beforeEach(() => {
+    PusherMockInstance.reset();
     pusherMock = new PusherMock();
   });
 
@@ -74,6 +77,38 @@ describe("PusherMock", () => {
       it("removes channel from channels object", () => {
         pusherMock.unsubscribe("my-channel");
         expect(pusherMock.channels).toEqual({});
+      });
+    });
+
+    describe("presence channels", () => {
+      it("removes only own callbacks from the callbacks object", async () => {
+        // arrange
+        const client = createClient("my-id", {});
+        const otherClient = createClient("your-id", {});
+
+        const channel = client.subscribe("presence-channel");
+        const otherChannel = otherClient.subscribe("presence-channel");
+
+        const listener = jest.fn();
+        const otherListener = jest.fn();
+
+        // act
+        channel.bind("some-event", listener);
+        otherChannel.bind("some-event", otherListener);
+
+        otherClient.unsubscribe("presence-channel");
+        PusherMockInstance.channels["presence-channel"].emit("some-event", {});
+
+        // assert
+        expect(listener).toHaveBeenCalled();
+        expect(otherListener).not.toHaveBeenCalled();
+        expect(
+          PusherMockInstance.channels["presence-channel"].callbacks
+        ).toEqual({ "some-event": [listener] });
+
+        // expect channel removed
+        client.unsubscribe("presence-channel");
+        expect(PusherMockInstance.channels).toEqual({});
       });
     });
   });

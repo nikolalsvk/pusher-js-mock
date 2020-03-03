@@ -1,5 +1,5 @@
 import { Config } from "pusher-js";
-
+import { IProxiedCallback } from "./proxyPresenceChannel";
 import PusherMockInstance from "./pusher-js-mock-instance";
 import { emitConnectionEvents, emitDisconnectionEvents } from "./pusherEvents";
 
@@ -63,10 +63,28 @@ class PusherMock {
       if (name.includes("presence-")) {
         const channel = PusherMockInstance.channels[name];
         emitDisconnectionEvents(channel, this);
-      }
 
-      PusherMockInstance.channels[name].callbacks = {};
-      delete PusherMockInstance.channels[name];
+        for (const key of Object.keys(channel.callbacks)) {
+          // filter out any callbacks that are our own
+          channel.callbacks[key] = channel.callbacks[key].filter(
+            (cb: IProxiedCallback) => cb.owner !== this.id
+          );
+
+          // delete the callback list if there are no callbacks left
+          if (channel.callbacks[key].length === 0) {
+            delete channel.callbacks[key];
+          }
+        }
+
+        // if there are no callback events left, delete the channel
+        if (Object.keys(Object.assign({}, channel.callbacks)).length === 0) {
+          delete PusherMockInstance.channels[name];
+        }
+      } else {
+        // public channel
+        PusherMockInstance.channels[name].callbacks = {};
+        delete PusherMockInstance.channels[name];
+      }
     }
   }
 }

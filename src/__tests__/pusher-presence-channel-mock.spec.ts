@@ -32,7 +32,7 @@ describe("PusherPresenceChannelMock", () => {
  * @param id The ID to attach to the client
  * @param info The user info object
  */
-const createClient = (id: string, info: any = {}) =>
+export const createClient = (id: string, info: any = {}) =>
   new PusherMock("key", {
     authorizer: () => ({
       authorize: (socketId, callback) => {
