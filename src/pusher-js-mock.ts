@@ -1,7 +1,7 @@
 import { Config } from "pusher-js";
-import { IProxiedCallback } from "./proxyPresenceChannel";
+import { IProxiedCallback } from "./proxy-presence-channel";
+import { emitConnectionEvents, emitDisconnectionEvents } from "./pusher-events";
 import PusherMockInstance from "./pusher-js-mock-instance";
-import { emitConnectionEvents, emitDisconnectionEvents } from "./pusherEvents";
 
 /** Class representing fake Pusher Client. */
 class PusherMock {
