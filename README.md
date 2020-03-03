@@ -110,7 +110,7 @@ This way you'll just replace your PusherFactory with PusherFactoryMock.
 
 #### Using presence channels
 
-This package also supports using presence channels for multiple clients. The mock
+This package also supports using presence channels for multiple clients. The mock will automatically detect when `presence-` is in the channel name and return a presence channel with `channel.members` filled out as expected. You can pass in IDs and info via a custom authorizer, just as you would with the real package.
 
 ```js
 // create-client.js

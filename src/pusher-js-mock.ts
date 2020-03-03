@@ -1,6 +1,7 @@
 import { Config } from "pusher-js";
+
 import PusherMockInstance from "./pusher-js-mock-instance";
-import { emitDisconnectionEvents } from "./pusherEvents";
+import { emitConnectionEvents, emitDisconnectionEvents } from "./pusherEvents";
 
 /** Class representing fake Pusher Client. */
 class PusherMock {
@@ -34,20 +35,23 @@ class PusherMock {
    * @returns {PusherChannelMock} PusherChannelMock object that represents channel
    */
   public subscribe(name: string) {
+    const channel = PusherMockInstance.channel(name, this);
+
     if (name.includes("presence-")) {
       this.config?.authorizer
         ? this.config
             .authorizer({} as any, {})
-            .authorize({ name } as any, this.setAuthInfo)
+            .authorize(channel, this.setAuthInfo)
         : this.setAuthInfo(false, {
             id: Math.random()
               .toString(36)
               .substr(2, 9),
             info: {},
           } as any);
+      emitConnectionEvents(channel, this);
     }
 
-    return PusherMockInstance.channel(name, this);
+    return channel;
   }
 
   /**

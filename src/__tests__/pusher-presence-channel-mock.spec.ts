@@ -106,14 +106,6 @@ describe("Proxied PusherPresenceChannelMock", () => {
     otherProxiedChannelMock.unbind("custom-event", otherListener);
   });
 
-  it.skip(" should trigger internal events such as pusher:subscription_succeeded", async () => {
-    const listener = jest.fn() as any;
-    const client = createClient("my-id", {});
-    const channel = client.subscribe("presence-channel");
-    await channel.bind("pusher:subscription_succeeded", listener);
-    expect(listener).toHaveBeenCalled();
-  });
-
   describe("#trigger", () => {
     it(" is an alias for emit", () => {
       let callback = jest.fn();

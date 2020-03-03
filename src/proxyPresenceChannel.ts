@@ -8,22 +8,6 @@ export interface IProxiedCallback {
 }
 
 /**
- * Proxies the instance of channel returned so we can still reference the
- * shared members object whilst passing our own ID & me properties
- *
- * @param {PusherPresenceChannelMock} channel The channel we're mocking
- * @param {PusherMock} client the client we want to use to proxy the channel
- */
-export const proxyPresenceChannel = (
-  channel: PusherPresenceChannelMock,
-  client: PusherMock
-) => {
-  const proxiedChannel = proxyChannel(channel, client);
-  emitConnectionEvents(proxiedChannel, client);
-  return proxiedChannel;
-};
-
-/**
  * Proxy custom members info to
  *
  * @param {Members} original The original members property on the channel
@@ -92,7 +76,7 @@ const proxyEmit = (original: PusherPresenceChannelMock, client: PusherMock) => (
  * @param {PusherMock} client the client we'll use to proxy the channel
  * @returns {Proxy<PusherPresenceChannelMock>} the proxied channel
  */
-const proxyChannel = (
+export const proxyPresenceChannel = (
   channel: PusherPresenceChannelMock,
   client: PusherMock
 ) => {
