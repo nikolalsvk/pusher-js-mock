@@ -33,7 +33,7 @@ const proxyMembers = (original: Members, client: PusherMock) => {
   original.myID = client.id;
   original.me = {
     id: client.id,
-    info: client.info,
+    info: client.info
   };
   return original;
 };
@@ -122,7 +122,7 @@ const proxyChannel = (
         default:
           return target[key];
       }
-    },
+    }
   };
 
   return new Proxy(channel, handler);
@@ -143,13 +143,13 @@ const emitConnectionEvents = async (
 
   channel.members.addMember({
     user_id: client.id,
-    user_info: client.info,
+    user_info: client.info
   });
 
   /** Add the member to the members object when proxied.  */
   channel.emit("pusher:member_added", {
     id: client.id,
-    info: client.info,
+    info: client.info
   });
 
   /** Emit internal event */

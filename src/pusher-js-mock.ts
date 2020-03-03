@@ -42,7 +42,7 @@ class PusherMock {
             id: Math.random()
               .toString(36)
               .substr(2, 9),
-            info: {},
+            info: {}
           } as any);
     }
 

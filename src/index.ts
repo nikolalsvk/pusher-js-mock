@@ -7,5 +7,5 @@ export {
   PusherMock,
   PusherFactoryMock,
   PusherChannelMock,
-  PusherPresenceChannelMock,
+  PusherPresenceChannelMock
 };

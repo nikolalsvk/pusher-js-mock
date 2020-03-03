@@ -90,8 +90,8 @@ describe("PusherMock", () => {
         authorizer: () => ({
           authorize: (socketId, callback) => {
             callback(true, undefined);
-          },
-        }),
+          }
+        })
       };
 
       pusherMock.subscribe("presence-channel");
