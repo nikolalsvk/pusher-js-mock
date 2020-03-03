@@ -163,7 +163,7 @@ describe("Proxied PusherPresenceChannelMock", () => {
       const channel = client.subscribe("presence-channel");
       await channel.bind("pusher:subscription_succeeded", listener);
       expect(listener).toHaveBeenCalledTimes(1);
-      await channel.unbind("pusher:subscription_succeeded", listener);
+      channel.unbind("pusher:subscription_succeeded", listener);
     });
     it("should trigger external events such as pusher:member_added", async () => {
       const listener = jest.fn() as any;
@@ -172,8 +172,8 @@ describe("Proxied PusherPresenceChannelMock", () => {
       const channel = client.subscribe("presence-channel");
       await channel.bind("pusher:member_added", listener);
       await otherClient.subscribe("presence-channel");
-      await expect(listener).toHaveBeenCalledTimes(1);
-      await channel.unbind("pusher:member_added", listener);
+      expect(listener).toHaveBeenCalledTimes(1);
+      channel.unbind("pusher:member_added", listener);
     });
   });
   describe("#unsubscribe", () => {
