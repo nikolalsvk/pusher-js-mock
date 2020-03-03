@@ -13,11 +13,13 @@ Mock [Pusher.js](https://github.com/pusher/pusher-js) in your JavaScript tests w
 ### Installing ⏬
 
 Using yarn:
+
 ```
 yarn add --dev pusher-js-mock
 ```
 
 Or using npm:
+
 ```
 npm install -D pusher-js-mock
 ```
@@ -27,6 +29,7 @@ npm install -D pusher-js-mock
 - [Emitting an event in tests](#emitting-an-event-in-tests)
 - [Stubbing Pusher when imported from pusher-js package](#stubbing-pusher-when-imported-from-pusher-js-package)
 - [Stubbing Pusher when used as a global variable](#stubbing-pusher-when-used-as-a-global-variable)
+- [Mocking presence channels](#using-presence-channels)
 
 For more detailed examples, check out [`examples` directory](https://github.com/nikolalsvk/pusher-js-mock/tree/master/examples)
 inside the project!
@@ -43,13 +46,13 @@ subscribe to channel, it's best to use PusherMock.
 import { PusherMock } from "pusher-js-mock";
 
 // initializing PusherMock
-const pusher = new PusherMock()
+const pusher = new PusherMock();
 
 // subscribing to a Pusher channel
-const channel = pusher.subscribe("my-channel")
+const channel = pusher.subscribe("my-channel");
 
 // emitting an event
-channel.emit("event-name")
+channel.emit("event-name");
 ```
 
 #### Stubbing Pusher when imported from pusher-js package
@@ -57,7 +60,7 @@ channel.emit("event-name")
 If you're using Pusher in your code in this or similar manner:
 
 ```javascript
-import Pusher from 'pusher-js';
+import Pusher from "pusher-js";
 ```
 
 You will need to mock Pusher in a specific way.
@@ -66,11 +69,10 @@ I suggest you use [Jest](https://jestjs.io/) to test your code.
 To do this in Jest, you'll need something like this:
 
 ```javascript
-jest.mock('pusher-js', () => {
-  const Pusher = require('pusher-js-mock').PusherMock
-
-  return Pusher
-})
+jest.mock("pusher-js", () => {
+  const Pusher = require("pusher-js-mock").PusherMock;
+  return Pusher;
+});
 ```
 
 If you have tips on how to mock this using other testing frameworks, please
@@ -86,7 +88,7 @@ your code:
 window.PusherFactory = {
   pusherClient: function(pusherKey) {
     return new Pusher(pusherKey);
-  }
+  },
 };
 ```
 
@@ -101,10 +103,65 @@ const pusherFactoryMock = new PusherFactoryMock();
 window.PusherFactory = pusherFactoryMock;
 
 // get the Pusher client reference
-pusher = pusherFactoryMock.pusherClient()
+pusher = pusherFactoryMock.pusherClient();
 ```
 
 This way you'll just replace your PusherFactory with PusherFactoryMock.
+
+#### Using presence channels
+
+This package also supports using presence channels for multiple clients. The mock
+
+```js
+// create-client.js
+import Pusher from "pusher-js";
+import { getAuthSomehow } from "./getAuthSomehow";
+
+export const createClient = ({ id, info }) =>
+  new Pusher("APP_KEY", {
+    cluster: "APP_CLUSTER",
+    // see https://github.com/pusher/pusher-js#authorizer-function
+    authorizer: ({ name }) => ({
+      authorize: (socketId, callback) => {
+        const auth = getAuthSomehow(id, info);
+        callback(false, auth);
+      },
+    }),
+  });
+
+export default createClient;
+```
+
+```js
+// create-client.spec.js
+import createClient from "../create-client";
+
+// mock the authorize function and pusher
+jest.mock("pusher-js", () => require("pusher-js-mock"));
+jest.mock("../getAuthSomehow", () => ({
+  getAuthSomehow: (id, info) => ({ id, info }),
+}));
+
+it("should create a presence channel", async () => {
+  // arrange: create pusher client
+  const pusher = createClient({ id: "my-id", info: { role: "moderator" } });
+
+  // act: required to ensure pusher events are called, i.e. pusher:member_added
+  const presenceChannel = await pusher.subscribe("presence-channel");
+
+  // assert: presenceChannel has the properties we expect it to.
+  expect(presenceChannel.members.myID).toBe("my-id");
+  expect(presenceChannel.members.me).toEqual({
+    id: "my-id",
+    info: { role: "moderator" },
+  });
+  expect(presenceChannel.members.members).toEqual({
+    "my-id": { role: "moderator" },
+  });
+});
+```
+
+[Check out a code example of using presence channels](https://github.com/nikolalsvk/pusher-js-mock/tree/master/examples/presence-channels)
 
 ### [Code of Conduct](CODE_OF_CODUCT.md)
 

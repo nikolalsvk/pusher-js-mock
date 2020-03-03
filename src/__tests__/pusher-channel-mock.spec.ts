@@ -29,7 +29,7 @@ describe("PusherChannelMock", () => {
         channelMock.unbind("my-channel", callback);
 
         expect(channelMock.callbacks).toEqual({
-          "my-channel": []
+          "my-channel": [],
         });
       });
     });
@@ -40,7 +40,7 @@ describe("PusherChannelMock", () => {
         channelMock.unbind("my-channel", callback);
 
         expect(channelMock.callbacks).toEqual({
-          "my-channel": []
+          "my-channel": [],
         });
       });
     });

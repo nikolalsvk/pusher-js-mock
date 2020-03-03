@@ -26,9 +26,9 @@ class PusherFactoryMock {
    * pusherClientInstance
    * @param {String} pusherKey - Pusher app key
    */
-  constructor(pusherKey: string) {
+  constructor(pusherKey: string, ...args: any[]) {
     this.pusherKey = pusherKey;
-    this.pusherClientInstance = new PusherMock();
+    this.pusherClientInstance = new PusherMock(...args);
   }
 
   /**

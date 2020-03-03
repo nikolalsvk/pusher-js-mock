@@ -5,10 +5,13 @@ interface ICallbacks {
 
 /** Class representing a fake Pusher channel. */
 class PusherChannelMock {
+  public name: string;
   public callbacks: ICallbacks;
+  public subscribed: boolean = true;
 
   /** Initialize PusherChannelMock with callbacks object. */
-  constructor() {
+  constructor(name: string = "public-channel") {
+    this.name = name;
     this.callbacks = {};
   }
 

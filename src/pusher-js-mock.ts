@@ -1,30 +1,30 @@
-import PusherChannelMock from "./pusher-channel-mock";
+import { Config } from "pusher-js";
+import PusherMockInstance from "./pusher-js-mock-instance";
 
-/** Interface for storing channels */
-interface IChannels {
-  [name: string]: any;
-}
-
-/** Class representing fake Pusher. */
+/** Class representing fake Pusher Client. */
 class PusherMock {
-  public channels: IChannels;
+  public id: string | undefined = undefined;
+  public info: Record<string, any> | undefined = undefined;
+  public clientKey: string | undefined;
+  public config: Config | undefined;
 
-  /** Initialize PusherMock with empty channels object. */
-  constructor() {
-    this.channels = {};
+  public channels = PusherMockInstance.channels;
+  public channel = PusherMockInstance.channel;
+
+  /** Initialize PusherMock */
+  constructor(clientKey?: string, config?: Config) {
+    this.clientKey = clientKey;
+    this.config = config;
+    this.setAuthInfo = this.setAuthInfo.bind(this);
+    this.subscribe = this.subscribe.bind(this);
+    this.unsubscribe = this.unsubscribe.bind(this);
   }
 
-  /**
-   * Get channel by its name.
-   * @param {String} name - name of the channel.
-   * @returns {PusherChannelMock} PusherChannelMock object that represents channel
-   */
-  public channel(name: string) {
-    if (!this.channels[name]) {
-      this.channels[name] = new PusherChannelMock();
+  public setAuthInfo(errored: boolean, auth: any) {
+    if (!errored) {
+      this.id = auth.id;
+      this.info = auth.info;
     }
-
-    return this.channels[name];
   }
 
   /**
@@ -33,7 +33,20 @@ class PusherMock {
    * @returns {PusherChannelMock} PusherChannelMock object that represents channel
    */
   public subscribe(name: string) {
-    return this.channel(name);
+    if (name.includes("presence-")) {
+      this.config?.authorizer
+        ? this.config
+            .authorizer({} as any, {})
+            .authorize({ name } as any, this.setAuthInfo)
+        : this.setAuthInfo(false, {
+            id: Math.random()
+              .toString(36)
+              .substr(2, 9),
+            info: {},
+          } as any);
+    }
+
+    return PusherMockInstance.channel(name, this);
   }
 
   /**
@@ -41,9 +54,9 @@ class PusherMock {
    * @param {String} name - name of the channel.
    */
   public unsubscribe(name: string) {
-    if (name in this.channels) {
-      this.channels[name].callbacks = {};
-      delete this.channels[name];
+    if (name in PusherMockInstance.channels) {
+      PusherMockInstance.channels[name].callbacks = {};
+      delete PusherMockInstance.channels[name];
     }
   }
 }
