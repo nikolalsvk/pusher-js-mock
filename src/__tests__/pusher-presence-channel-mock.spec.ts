@@ -1,6 +1,5 @@
 import { PusherMock, PusherPresenceChannelMock } from "../";
 import { AuthInfo } from "pusher-js";
-import pusherJsMockInstance from "../pusher-js-mock-instance";
 
 describe("PusherPresenceChannelMock", () => {
   let channelMock: PusherPresenceChannelMock;
@@ -22,7 +21,7 @@ describe("PusherPresenceChannelMock", () => {
       count: 0,
       members: {},
       me: null,
-      myID: null,
+      myID: null
     });
   });
 });
@@ -37,8 +36,8 @@ export const createClient = (id: string, info: any = {}) =>
     authorizer: () => ({
       authorize: (socketId, callback) => {
         callback(false, ({ id, info } as unknown) as AuthInfo);
-      },
-    }),
+      }
+    })
   });
 
 describe("Proxied PusherPresenceChannelMock", () => {
@@ -65,11 +64,11 @@ describe("Proxied PusherPresenceChannelMock", () => {
     await expect(proxiedChannelMock.members.count).toBe(2);
     expect(proxiedChannelMock.members.get("my-id")).toEqual({
       id: "my-id",
-      info: {},
+      info: {}
     });
     expect(proxiedChannelMock.members.get("your-id")).toEqual({
       id: "your-id",
-      info: {},
+      info: {}
     });
   });
 

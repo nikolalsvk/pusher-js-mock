@@ -16,13 +16,13 @@ export const emitConnectionEvents = async (
   /** Add member to the members object */
   channel.members.addMember({
     user_id: client.id,
-    user_info: client.info,
+    user_info: client.info
   });
 
   /** emit external event to other connected clients */
   channel.emit("pusher:member_added", {
     id: client.id,
-    info: client.info,
+    info: client.info
   });
 
   /** Emit internal event */
@@ -42,12 +42,12 @@ export const emitDisconnectionEvents = (
   /** Remove member from the members object */
   channel.members.removeMember({
     user_id: client.id,
-    user_info: client.info,
+    user_info: client.info
   });
 
   /** emit external event to other connected clients */
   channel.emit("pusher:member_removed", {
     id: client.id,
-    info: client.info,
+    info: client.info
   });
 };

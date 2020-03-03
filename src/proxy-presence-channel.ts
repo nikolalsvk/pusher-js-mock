@@ -17,7 +17,7 @@ const proxyMembers = (original: Members, client: PusherMock) => {
   original.myID = client.id;
   original.me = {
     id: client.id,
-    info: client.info,
+    info: client.info
   };
   return original;
 };
@@ -106,7 +106,7 @@ export const proxyPresenceChannel = (
         default:
           return target[key];
       }
-    },
+    }
   };
 
   return new Proxy(channel, handler);
