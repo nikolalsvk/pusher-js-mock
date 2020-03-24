@@ -88,7 +88,7 @@ your code:
 window.PusherFactory = {
   pusherClient: function(pusherKey) {
     return new Pusher(pusherKey);
-  },
+  }
 };
 ```
 
@@ -125,8 +125,8 @@ export const createClient = ({ id, info }) =>
       authorize: (socketId, callback) => {
         const auth = getAuthSomehow(id, info);
         callback(false, auth);
-      },
-    }),
+      }
+    })
   });
 
 export default createClient;
@@ -139,7 +139,7 @@ import createClient from "../create-client";
 // mock the authorize function and pusher
 jest.mock("pusher-js", () => require("pusher-js-mock"));
 jest.mock("../getAuthSomehow", () => ({
-  getAuthSomehow: (id, info) => ({ id, info }),
+  getAuthSomehow: (id, info) => ({ id, info })
 }));
 
 it("should create a presence channel", async () => {
@@ -153,15 +153,54 @@ it("should create a presence channel", async () => {
   expect(presenceChannel.members.myID).toBe("my-id");
   expect(presenceChannel.members.me).toEqual({
     id: "my-id",
-    info: { role: "moderator" },
+    info: { role: "moderator" }
   });
   expect(presenceChannel.members.members).toEqual({
-    "my-id": { role: "moderator" },
+    "my-id": { role: "moderator" }
   });
 });
 ```
 
 [Check out a code example of using presence channels](https://github.com/nikolalsvk/pusher-js-mock/tree/master/examples/presence-channels)
+
+#### Pusher events emitted by presence channels
+
+The mocked Pusher instance will also emit pusher internal events `pusher:subscription_succeeded`, `pusher:member_added` and `pusher:member_removed` to the relevant clients:
+
+```js
+it("should emit presence-channel events", async () => {
+  const client = createClient({ id: "my-id" });
+  const channel = client.subscribe("presence-channel");
+  const listener = jest.fn();
+
+  /**
+   * On bind, pusher:subscription_succeded will trigger
+   * for the client subscribing. Other clients will be
+   * notified via pusher:member_added as below.
+   */
+  await channel.bind("pusher:subscription_succeeded", listener);
+  expect(listener).toHaveBeenCalledTimes(1);
+
+  /**
+   * Create and subscribe a new client that will trigger the
+   * pusher:member_added event. This only gets triggered for
+   * clients are not the client subscribing
+   */
+  channel.bind("pusher:member_added", listener);
+  const otherClient = createClient({ id: "your-id" });
+  await otherClient.subscribe("presence-channel");
+  expect(listener).toHaveBeenCalledTimes(2);
+
+  /**
+   * Unsubscribe the otherClient to trigger pusher:member_removed.
+   * This only gets triggered for clients that are not the client
+   * unsubscribing.
+   */
+  channel.bind("pusher:member_removed", listener);
+  await otherClient.unsubscribe("presence-channel");
+  expect(listener).toHaveBeenCalledTimes(3);
+});
+```
 
 ### [Code of Conduct](CODE_OF_CODUCT.md)
 
