@@ -1,6 +1,5 @@
 import { PusherMock, PusherPresenceChannelMock } from "../";
 import { AuthInfo } from "pusher-js";
-import { proxyPresenceChannel } from "../proxy-presence-channel";
 
 describe("PusherPresenceChannelMock", () => {
   let channelMock: PusherPresenceChannelMock;
@@ -32,7 +31,7 @@ describe("PusherPresenceChannelMock", () => {
  * @param id The ID to attach to the client
  * @param info The user info object
  */
-const createClient = (id: string, info: any = {}) =>
+export const createClient = (id: string, info: any = {}) =>
   new PusherMock("key", {
     authorizer: () => ({
       authorize: (socketId, callback) => {
@@ -106,14 +105,6 @@ describe("Proxied PusherPresenceChannelMock", () => {
     otherProxiedChannelMock.unbind("custom-event", otherListener);
   });
 
-  it(" should trigger internal events such as pusher:subscription_succeeded", async () => {
-    const listener = jest.fn() as any;
-    const client = createClient("my-id", {});
-    const channel = client.subscribe("presence-channel");
-    await channel.bind("pusher:subscription_succeeded", listener);
-    expect(listener).toHaveBeenCalled();
-  });
-
   describe("#trigger", () => {
     it(" is an alias for emit", () => {
       let callback = jest.fn();
@@ -153,6 +144,41 @@ describe("Proxied PusherPresenceChannelMock", () => {
       client.id = undefined;
       proxiedChannelMock.bind("never-bound-event", () => {});
       expect(proxiedChannelMock.callbacks["never-bound-event"]).toBeUndefined();
+    });
+  });
+
+  describe("#subscribe", () => {
+    it("should trigger internal events such as pusher:subscription_succeeded", async () => {
+      const listener = jest.fn() as any;
+      const client = createClient("my-id", {});
+      const channel = client.subscribe("presence-channel");
+      await channel.bind("pusher:subscription_succeeded", listener);
+      expect(listener).toHaveBeenCalledTimes(1);
+      channel.unbind("pusher:subscription_succeeded", listener);
+    });
+    it("should trigger external events such as pusher:member_added", async () => {
+      const listener = jest.fn() as any;
+      const client = createClient("my-id", {});
+      const otherClient = createClient("your-id", {});
+      const channel = client.subscribe("presence-channel");
+      await channel.bind("pusher:member_added", listener);
+      await otherClient.subscribe("presence-channel");
+      expect(listener).toHaveBeenCalledTimes(1);
+      channel.unbind("pusher:member_added", listener);
+    });
+  });
+  describe("#unsubscribe", () => {
+    it("should trigger external events such as pusher:member_removed", async () => {
+      const listener = jest.fn() as any;
+      const client = createClient("my-id", {});
+      const otherClient = createClient("your-id", {});
+      const channel = client.subscribe("presence-channel");
+      channel.bind("pusher:member_removed", listener);
+      otherClient.subscribe("presence-channel");
+      otherClient.unsubscribe("presence-channel");
+
+      await expect(listener).toHaveBeenCalledTimes(1);
+      channel.unbind("pusher:member_removed", listener);
     });
   });
 });
