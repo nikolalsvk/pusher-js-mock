@@ -1,16 +1,31 @@
-[![npm version](https://badge.fury.io/js/pusher-js-mock.svg)](https://badge.fury.io/js/pusher-js-mock)
-[![Build Status](https://semaphoreci.com/api/v1/nikolalsvk/pusher-js-mock/branches/master/shields_badge.svg)](https://semaphoreci.com/nikolalsvk/pusher-js-mock)
-[![Code Climate](https://codeclimate.com/github/nikolalsvk/pusher-js-mock/badges/gpa.svg)](https://codeclimate.com/github/nikolalsvk/pusher-js-mock)
-[![Test Coverage](https://codeclimate.com/github/nikolalsvk/pusher-js-mock/badges/coverage.svg)](https://codeclimate.com/github/nikolalsvk/pusher-js-mock/coverage)
-[![Open Source Helpers](https://www.codetriage.com/nikolalsvk/pusher-js-mock/badges/users.svg)](https://www.codetriage.com/nikolalsvk/pusher-js-mock)
+<p align="center">
+  <img src='https://raw.githubusercontent.com/nikolalsvk/pusher-js-mock/master/logo.jpg' alt="pusher-js-mock logo" />
 
-![pusher-js-mock logo](https://raw.githubusercontent.com/nikolalsvk/pusher-js-mock/master/logo.jpg)
+  <h1 align="center">👋 Welcome to pusher-js-mock</h1>
 
-# pusher-js-mock
+  <p align="center">
+    <a href="https://badge.fury.io/js/pusher-js-mock" target="_blank">
+     <img src="https://badge.fury.io/js/pusher-js-mock.svg" alt="npm version" />
+    </a>
+    <a href="https://semaphoreci.com/nikolalsvk/pusher-js-mock" target="_blank">
+     <img src="https://semaphoreci.com/api/v1/nikolalsvk/pusher-js-mock/branches/master/shields_badge.svg" alt="Build Status" />
+    </a>
+    <a href="https://codeclimate.com/github/nikolalsvk/pusher-js-mock" target="_blank">
+     <img src="https://codeclimate.com/github/nikolalsvk/pusher-js-mock/badges/gpa.svg" alt="Code Climate" />
+    </a>
+    <a href="https://codeclimate.com/github/nikolalsvk/pusher-js-mock/coverage" target="_blank">
+     <img src="https://codeclimate.com/github/nikolalsvk/pusher-js-mock/badges/coverage.svg" alt="Test Coverage" />
+    </a>
+    <a href="https://www.codetriage.com/nikolalsvk/pusher-js-mock" target="_blank">
+     <img src="https://www.codetriage.com/nikolalsvk/pusher-js-mock/badges/users.svg" alt="Open Source Helpers" />
+    </a>
+  </p>
+  <p align="center">
+    Mock <a href="https://github.com/pusher/pusher-js">Pusher.js</a> in your JavaScript tests with ease.
+  </p>
+</p>
 
-Mock [Pusher.js](https://github.com/pusher/pusher-js) in your JavaScript tests with ease
-
-### Installing ⏬
+## Installing ⏬
 
 Using yarn:
 
@@ -24,12 +39,15 @@ Or using npm:
 npm install -D pusher-js-mock
 ```
 
-### Usage 🛠
+## Usage 🛠
 
-- [Emitting an event in tests](#emitting-an-event-in-tests)
-- [Stubbing Pusher when imported from pusher-js package](#stubbing-pusher-when-imported-from-pusher-js-package)
-- [Stubbing Pusher when used as a global variable](#stubbing-pusher-when-used-as-a-global-variable)
-- [Mocking presence channels](#using-presence-channels)
+- [Emitting an event 📶](#emitting-an-event-📶)
+- [Listening for an events 👂](#listening-for-an-event-👂)
+- [Stubbing Pusher when imported from pusher-js package 📦](#stubbing-pusher-when-imported-from-pusher-js-package-📦)
+- [Stubbing Pusher when used as a global variable 🌍](#stubbing-pusher-when-used-as-a-global-variable-🌍)
+- [Mocking presence channels](#mocking-presence-channels)
+  - [Using custom authorizer](#using-custom-authorizer)
+  - [Pusher events emitted by presence channels](#pusher-events-emitted-by-presence-channels)
 
 For more detailed examples, check out [`examples` directory](https://github.com/nikolalsvk/pusher-js-mock/tree/master/examples)
 inside the project!
@@ -37,7 +55,7 @@ inside the project!
 Also, you can check out the
 [Docs](https://nikolalsvk.github.io/pusher-js-mock/) for even more information.
 
-#### Emitting an event in tests
+### Emitting an event 📶
 
 If you need to mock a Pusher object in your tests that can
 subscribe to channel, it's best to use PusherMock.
@@ -55,7 +73,34 @@ const channel = pusher.subscribe("my-channel");
 channel.emit("event-name");
 ```
 
-#### Stubbing Pusher when imported from pusher-js package
+### Listening for an event 👂
+
+If you want to check whether your callback is getting called properly, you can
+bind a callback to your channel, and then emit an event.
+
+```javascript
+import { PusherMock } from "pusher-js-mock";
+
+descibe('listening for an event', () => {
+  // initializing PusherMock
+  const pusher = new PusherMock();
+
+  // subscribing to a Pusher channel
+  const channel = pusher.subscribe("my-channel");
+
+  // define and attach a listener
+  const listener = jest.fn()
+  channel.bind('event-name', listener)
+
+  // emitting an event
+  channel.emit("event-name");
+
+  // Expect listener to have been called
+  expect(listener).toHaveBeenCalled()
+})
+```
+
+### Stubbing Pusher when imported from pusher-js package 📦
 
 If you're using Pusher in your code in this or similar manner:
 
@@ -78,7 +123,7 @@ jest.mock("pusher-js", () => {
 If you have tips on how to mock this using other testing frameworks, please
 submit an issue or a pull request.
 
-#### Stubbing Pusher when used as a global variable
+### Stubbing Pusher when used as a global variable 🌍
 
 This shows how to stub a pusher if you're attaching it to window object in your
 project. If you're attaching a PusherFactory to a `window` object like this in
@@ -108,9 +153,17 @@ pusher = pusherFactoryMock.pusherClient();
 
 This way you'll just replace your PusherFactory with PusherFactoryMock.
 
-#### Using presence channels
+### Mocking presence channels
 
-This package also supports using presence channels for multiple clients. The mock will automatically detect when `presence-` is in the channel name and return a presence channel with `channel.members` filled out as expected. You can pass in IDs and info via a custom authorizer, just as you would with the real package.
+This package also supports using presence channels for multiple clients. The
+mock will automatically detect when `presence-` is in the channel name and
+return a presence channel with `channel.members` filled out as expected. You
+can pass in IDs and info via a custom authorizer, just as you would with the
+real package.
+
+#### Using custom authorizer
+
+If you want, you can pass in a custom authorizer when creating a Pusher client.
 
 ```js
 // create-client.js
@@ -165,7 +218,9 @@ it("should create a presence channel", async () => {
 
 #### Pusher events emitted by presence channels
 
-The mocked Pusher instance will also emit pusher internal events `pusher:subscription_succeeded`, `pusher:member_added` and `pusher:member_removed` to the relevant clients:
+The mocked Pusher instance will also emit pusher internal events
+`pusher:subscription_succeeded`, `pusher:member_added` and
+`pusher:member_removed` to the relevant clients:
 
 ```js
 it("should emit presence-channel events", async () => {

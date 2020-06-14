@@ -53,6 +53,59 @@ describe("PusherMock", () => {
     });
   });
 
+  describe("#bind", () => {
+    it("binds event to all channels", () => {
+      const listener = jest.fn();
+      const myChannel = pusherMock.channel("my-channel");
+      const myOtherChannel = pusherMock.channel("my-other-channel");
+      const myThirdChannel = pusherMock.channel("my-third-channel");
+
+      pusherMock.bind("test-event", listener);
+
+      myChannel.emit("test-event");
+      expect(listener).toHaveBeenCalledTimes(1);
+
+      myOtherChannel.emit("test-event");
+      expect(listener).toHaveBeenCalledTimes(2);
+
+      myThirdChannel.emit("test-event");
+      expect(listener).toHaveBeenCalledTimes(3);
+    });
+  });
+
+  describe("#unbind", () => {
+    it("removes name: callback from callbacks object", () => {
+      const callback = () => {};
+
+      const myChannel = pusherMock.channel("my-channel");
+      const myOtherChannel = pusherMock.channel("my-other-channel");
+      const myThirdChannel = pusherMock.channel("my-third-channel");
+
+      pusherMock.bind("test-event", callback);
+      expect(myChannel.callbacks).toEqual({
+        "test-event": [callback]
+      });
+      expect(myOtherChannel.callbacks).toEqual({
+        "test-event": [callback]
+      });
+      expect(myThirdChannel.callbacks).toEqual({
+        "test-event": [callback]
+      });
+
+      pusherMock.unbind("test-event", callback);
+
+      expect(myChannel.callbacks).toEqual({
+        "test-event": []
+      });
+      expect(myOtherChannel.callbacks).toEqual({
+        "test-event": []
+      });
+      expect(myThirdChannel.callbacks).toEqual({
+        "test-event": []
+      });
+    });
+  });
+
   describe("#subscribe", () => {
     it("returns instance of PusherChannelMock", () => {
       expect(pusherMock.channel("my-channel")).toBeDefined();
