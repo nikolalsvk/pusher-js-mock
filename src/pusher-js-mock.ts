@@ -89,7 +89,7 @@ class PusherMock {
   }
 
   /**
-   * Bind a callback to all channels
+   * Bind a callback to an event on all channels
    * @param {String} name - name of the event to bind to.
    * @param {Function} callback - callback to be called on event.
    */
@@ -100,7 +100,7 @@ class PusherMock {
   }
 
   /**
-   * Unbind a callback from all channels
+   * Unbind a callback from an event on all channels
    * @param {String} name - name of the event to unbind from.
    * @param {Function} callback - callback to be called on event.
    */
