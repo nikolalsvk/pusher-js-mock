@@ -87,6 +87,28 @@ class PusherMock {
       }
     }
   }
+
+  /**
+   * Bind a callback to all channels
+   * @param {String} name - name of the event to bind to.
+   * @param {Function} callback - callback to be called on event.
+   */
+  public bind(name: string, callback: () => void) {
+    Object.keys(PusherMockInstance.channels).forEach(channelName => {
+      PusherMockInstance.channel(channelName).bind(name, callback);
+    });
+  }
+
+  /**
+   * Unbind a callback from all channels
+   * @param {String} name - name of the event to unbind from.
+   * @param {Function} callback - callback to be called on event.
+   */
+  public unbind(name: string, callback: () => void) {
+    Object.keys(PusherMockInstance.channels).forEach(channelName => {
+      PusherMockInstance.channel(channelName).unbind(name, callback);
+    });
+  }
 }
 
 export default PusherMock;

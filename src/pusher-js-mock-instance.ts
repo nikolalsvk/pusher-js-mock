@@ -4,7 +4,7 @@ import PusherMock from "./pusher-js-mock";
 import PusherPresenceChannelMock from "./pusher-presence-channel-mock";
 
 /** Interface for storing channels */
-export interface IChannels {
+interface IChannels {
   [name: string]: any;
 }
 
