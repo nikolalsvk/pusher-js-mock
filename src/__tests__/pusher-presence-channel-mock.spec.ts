@@ -8,7 +8,7 @@ describe("PusherPresenceChannelMock", () => {
     channelMock = new PusherPresenceChannelMock();
   });
 
-  it(" sets a name (with a default fallback)", () => {
+  it("sets a name (with a default fallback)", () => {
     expect(channelMock.name).toBe("presence-channel");
     const namedChannelMock = new PusherPresenceChannelMock(
       "presence-custom-name"
@@ -56,12 +56,12 @@ describe("Proxied PusherPresenceChannelMock", () => {
     otherProxiedChannelMock = otherClient.subscribe(PRESENCE_CHANNEL);
   });
 
-  it(" doesn't proxy class members it doesn't care about", () => {
+  it("doesn't proxy class members it doesn't care about", () => {
     expect(proxiedChannelMock.subscribed).toBe(true);
   });
 
-  it(" add new members to the channel", async () => {
-    await expect(proxiedChannelMock.members.count).toBe(2);
+  it("add new members to the channel", () => {
+    expect(proxiedChannelMock.members.count).toBe(2);
     expect(proxiedChannelMock.members.get("my-id")).toEqual({
       id: "my-id",
       info: {}
@@ -72,20 +72,20 @@ describe("Proxied PusherPresenceChannelMock", () => {
     });
   });
 
-  it(" correctly proxies the channel object per client", async () => {
-    await expect(proxiedChannelMock.members.myID).toBe("my-id");
+  it("correctly proxies the channel object per client", () => {
+    expect(proxiedChannelMock.members.myID).toBe("my-id");
     expect(proxiedChannelMock.members.me).toEqual({ id: "my-id", info: {} });
     expect(proxiedChannelMock.IS_PROXY).toBeDefined();
   });
 
-  it(" allows multiple clients to subscribe", async () => {
-    await expect(proxiedChannelMock.members.myID).toBe("my-id");
+  it("allows multiple clients to subscribe", () => {
+    expect(proxiedChannelMock.members.myID).toBe("my-id");
     expect(otherProxiedChannelMock.members.myID).toBe("your-id");
 
     expect(proxiedChannelMock.members.count).toBe(2);
   });
 
-  it(" should not emit a members callback when that member emits an event", () => {
+  it("should not emit a members callback when that member emits an event", () => {
     const listener = jest.fn();
     proxiedChannelMock.bind("custom-event", listener);
 
@@ -106,15 +106,30 @@ describe("Proxied PusherPresenceChannelMock", () => {
   });
 
   describe("#trigger", () => {
-    it(" is an alias for emit", () => {
-      let callback = jest.fn();
+    it("is an alias for emit", () => {
+      const callback = jest.fn();
       proxiedChannelMock.bind("event", callback);
+
       proxiedChannelMock.trigger("event");
+
       expect(callback).toHaveBeenCalled();
     });
+
+    it("emits pusher:member_added manually", () => {
+      client = new PusherMock();
+      const proxiedChannel = client.subscribe("presence-some-id");
+
+      const callback = jest.fn();
+      proxiedChannel.bind("pusher:member_added", callback);
+
+      proxiedChannel.trigger("pusher:member_added", { data: "testing" });
+
+      expect(callback).toHaveBeenCalledWith({ data: "testing" });
+    });
   });
+
   describe("Shared instance multiple clients", () => {
-    it(" should trigger events cross-client", () => {
+    it("should trigger events cross-client", () => {
       // binding to the same event
       const listener = jest.fn();
       proxiedChannelMock.bind("client-event", listener);
@@ -152,32 +167,40 @@ describe("Proxied PusherPresenceChannelMock", () => {
       const listener = jest.fn() as any;
       const client = createClient("my-id", {});
       const channel = client.subscribe("presence-channel");
+
       await channel.bind("pusher:subscription_succeeded", listener);
+
       expect(listener).toHaveBeenCalledTimes(1);
+
       channel.unbind("pusher:subscription_succeeded", listener);
     });
+
     it("should trigger external events such as pusher:member_added", async () => {
       const listener = jest.fn() as any;
       const client = createClient("my-id", {});
       const otherClient = createClient("your-id", {});
       const channel = client.subscribe("presence-channel");
+
       await channel.bind("pusher:member_added", listener);
       await otherClient.subscribe("presence-channel");
+
       expect(listener).toHaveBeenCalledTimes(1);
       channel.unbind("pusher:member_added", listener);
     });
   });
+
   describe("#unsubscribe", () => {
-    it("should trigger external events such as pusher:member_removed", async () => {
+    it("should trigger external events such as pusher:member_removed", () => {
       const listener = jest.fn() as any;
       const client = createClient("my-id", {});
       const otherClient = createClient("your-id", {});
       const channel = client.subscribe("presence-channel");
+
       channel.bind("pusher:member_removed", listener);
       otherClient.subscribe("presence-channel");
       otherClient.unsubscribe("presence-channel");
 
-      await expect(listener).toHaveBeenCalledTimes(1);
+      expect(listener).toHaveBeenCalledTimes(1);
       channel.unbind("pusher:member_removed", listener);
     });
   });

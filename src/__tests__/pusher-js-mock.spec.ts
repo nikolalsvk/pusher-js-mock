@@ -62,6 +62,12 @@ describe("PusherMock", () => {
       pusherMock.subscribe("my-channel");
       expect(pusherMock.channels).toMatchObject({ "my-channel": {} });
     });
+
+    it("subscribes to a presence channel", () => {
+      pusherMock.subscribe("presence-channel");
+
+      expect(pusherMock.channels).toMatchObject({ "presence-channel": {} });
+    });
   });
 
   describe("#unsubscribe", () => {
@@ -83,7 +89,7 @@ describe("PusherMock", () => {
     describe("presence channels", () => {
       it("removes only own callbacks from the callbacks object", async () => {
         // arrange
-        const client = createClient("my-id", {});
+        const client = new PusherMock("my-id");
         const otherClient = createClient("your-id", {});
 
         const channel = client.subscribe("presence-channel");
@@ -97,10 +103,12 @@ describe("PusherMock", () => {
         otherChannel.bind("some-event", otherListener);
 
         otherClient.unsubscribe("presence-channel");
-        PusherMockInstance.channels["presence-channel"].emit("some-event", {});
+        PusherMockInstance.channels["presence-channel"].emit("some-event", {
+          data: "testing"
+        });
 
         // assert
-        expect(listener).toHaveBeenCalled();
+        expect(listener).toHaveBeenCalledWith({ data: "testing" });
         expect(otherListener).not.toHaveBeenCalled();
         expect(
           PusherMockInstance.channels["presence-channel"].callbacks
