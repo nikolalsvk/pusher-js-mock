@@ -94,8 +94,8 @@ class PusherMock {
    * @param {Function} callback - callback to be called on event.
    */
   public bind(name: string, callback: () => void) {
-    Object.keys(PusherMockInstance.channels).forEach(channelName => {
-      PusherMockInstance.channel(channelName).bind(name, callback);
+    Object.keys(this.channels).forEach(channelName => {
+      this.channel(channelName).bind(name, callback);
     });
   }
 
@@ -105,8 +105,8 @@ class PusherMock {
    * @param {Function} callback - callback to be called on event.
    */
   public unbind(name: string, callback: () => void) {
-    Object.keys(PusherMockInstance.channels).forEach(channelName => {
-      PusherMockInstance.channel(channelName).unbind(name, callback);
+    Object.keys(this.channels).forEach(channelName => {
+      this.channel(channelName).unbind(name, callback);
     });
   }
 }
