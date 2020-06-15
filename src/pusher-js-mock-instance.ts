@@ -10,9 +10,11 @@ export interface IChannels {
 
 class PusherMockInstance {
   public channels: IChannels;
+  public connection: any;
 
   constructor() {
     this.channels = {};
+    this.connection = new PusherChannelMock("connection");
     this.channel = this.channel.bind(this);
   }
 

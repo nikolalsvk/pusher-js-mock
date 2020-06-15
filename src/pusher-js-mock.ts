@@ -1,4 +1,4 @@
-import { Config } from "pusher-js";
+import { Config, ConnectionManager } from "pusher-js";
 import { IProxiedCallback } from "./proxy-presence-channel";
 import { emitConnectionEvents, emitDisconnectionEvents } from "./pusher-events";
 import PusherMockInstance from "./pusher-js-mock-instance";
@@ -9,6 +9,7 @@ class PusherMock {
   public info: Record<string, any> | undefined = undefined;
   public clientKey: string | undefined;
   public config: Config | undefined;
+  public connection = PusherMockInstance.connection;
 
   public channels = PusherMockInstance.channels;
   public channel = PusherMockInstance.channel;
