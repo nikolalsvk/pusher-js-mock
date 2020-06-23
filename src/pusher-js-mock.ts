@@ -1,4 +1,4 @@
-import { Config } from "pusher-js";
+import { Options } from "pusher-js";
 import { IProxiedCallback } from "./proxy-presence-channel";
 import { emitConnectionEvents, emitDisconnectionEvents } from "./pusher-events";
 import PusherMockInstance from "./pusher-js-mock-instance";
@@ -8,13 +8,13 @@ class PusherMock {
   public id: string | undefined = undefined;
   public info: Record<string, any> | undefined = undefined;
   public clientKey: string | undefined;
-  public config: Config | undefined;
+  public config: Options | undefined;
 
   public channels = PusherMockInstance.channels;
   public channel = PusherMockInstance.channel;
 
   /** Initialize PusherMock */
-  constructor(clientKey?: string, config?: Config) {
+  constructor(clientKey?: string, config?: Options) {
     this.clientKey = clientKey;
     this.config = config;
     this.setAuthInfo = this.setAuthInfo.bind(this);
@@ -40,7 +40,7 @@ class PusherMock {
     if (name.includes("presence-")) {
       this.config?.authorizer
         ? this.config
-            .authorizer({} as any, {})
+            .authorizer({} as any, {} as any)
             .authorize(channel, this.setAuthInfo)
         : this.setAuthInfo(false, {
             id: Math.random()
