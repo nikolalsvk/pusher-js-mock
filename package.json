@@ -43,8 +43,6 @@
     "jsdoc": "^3.5.5",
     "lint-staged": "^7.0.0",
     "prettier": "^1.19.1",
-    "pusher-js": "^6.0.3",
-    "pusher-js-mock": "^0.3.1",
     "rimraf": "^2.6.2",
     "ts-jest": "^24.2.0",
     "tslint": "^5.20.1",
