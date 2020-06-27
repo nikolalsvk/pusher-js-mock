@@ -1,9 +1,9 @@
-Any contribution is welcome anytime.
+Any contribution is welcome, anytime!
 
 In order to do that, make sure to
 
 1. Fork this repository and clone it.
-2. Make changes 
+2. Make changes
 3. Submit a Pull Request
 
 In order for your pull requests to be considered, you will have to have

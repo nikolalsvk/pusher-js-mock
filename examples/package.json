@@ -1,0 +1,21 @@
+{
+  "name": "pusher-js-mock-examples",
+  "version": "1.0.0",
+  "description": "Examples on how to use pusher-js-mock",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest test --coverage"
+  },
+  "keywords": [
+    "pusher"
+  ],
+  "author": "Nikola Đuza",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.10.1",
+    "babel-jest": "^26.1.0",
+    "jest": "^26.1.0",
+    "pusher-js": "^6.0.3",
+    "pusher-js-mock": "^0.3.1"
+  }
+}

@@ -1,7 +1,11 @@
 import createClient from "../create-client";
 
 // mock the authorize function and pusher
-jest.mock("pusher-js", () => require("../../../src/pusher-js-mock"));
+jest.mock("pusher-js", () => {
+  const Pusher = require("pusher-js-mock").PusherMock;
+
+  return Pusher;
+});
 jest.mock("../getAuthSomehow", () => ({
   getAuthSomehow: (id, info) => ({ id, info })
 }));
