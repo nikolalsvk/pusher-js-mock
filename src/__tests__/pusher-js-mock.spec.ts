@@ -185,7 +185,7 @@ describe("PusherMock", () => {
       pusherMock.config = {
         authorizer: () => ({
           authorize: (socketId, callback) => {
-            callback(true, undefined);
+            callback(true, undefined as any);
           }
         })
       };

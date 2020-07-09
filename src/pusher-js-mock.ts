@@ -1,21 +1,32 @@
-import { Config, ConnectionManager } from "pusher-js";
+import { PusherChannelMock } from ".";
 import { IProxiedCallback } from "./proxy-presence-channel";
 import { emitConnectionEvents, emitDisconnectionEvents } from "./pusher-events";
 import PusherMockInstance from "./pusher-js-mock-instance";
+
+export interface IPusherMockOptions {
+  authorizer: (
+    channel: PusherChannelMock
+  ) => {
+    authorize: (
+      socketId: string,
+      callback: (error: boolean, authInfo: any) => void
+    ) => void;
+  };
+}
 
 /** Class representing fake Pusher Client. */
 class PusherMock {
   public id: string | undefined = undefined;
   public info: Record<string, any> | undefined = undefined;
   public clientKey: string | undefined;
-  public config: Config | undefined;
-  public connection = PusherMockInstance.connection;
+  public config: IPusherMockOptions | undefined;
 
+    public connection = PusherMockInstance.connection;
   public channels = PusherMockInstance.channels;
   public channel = PusherMockInstance.channel;
 
   /** Initialize PusherMock */
-  constructor(clientKey?: string, config?: Config) {
+  constructor(clientKey?: string, config?: IPusherMockOptions) {
     this.clientKey = clientKey;
     this.config = config;
     this.setAuthInfo = this.setAuthInfo.bind(this);
@@ -40,9 +51,7 @@ class PusherMock {
 
     if (name.includes("presence-")) {
       this.config?.authorizer
-        ? this.config
-            .authorizer({} as any, {})
-            .authorize(channel, this.setAuthInfo)
+        ? this.config.authorizer({} as any).authorize(channel, this.setAuthInfo)
         : this.setAuthInfo(false, {
             id: Math.random()
               .toString(36)

@@ -1,5 +1,4 @@
 import { PusherMock, PusherPresenceChannelMock } from "../";
-import { AuthInfo } from "pusher-js";
 
 describe("PusherPresenceChannelMock", () => {
   let channelMock: PusherPresenceChannelMock;
@@ -34,8 +33,8 @@ describe("PusherPresenceChannelMock", () => {
 export const createClient = (id: string, info: any = {}) =>
   new PusherMock("key", {
     authorizer: () => ({
-      authorize: (socketId, callback) => {
-        callback(false, ({ id, info } as unknown) as AuthInfo);
+      authorize: (_socketId, callback) => {
+        callback(false, { id, info });
       }
     })
   });
