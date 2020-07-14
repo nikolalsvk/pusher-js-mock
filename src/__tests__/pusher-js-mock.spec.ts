@@ -53,6 +53,21 @@ describe("PusherMock", () => {
     });
   });
 
+  describe("#connection", () => {
+    it("returns instance of connection", () => {
+      expect(pusherMock.connection).toBeDefined();
+    });
+
+    it("binds events to connection", () => {
+      const listener = jest.fn();
+      pusherMock.connection.bind("test-event", listener);
+
+      pusherMock.connection.emit("test-event");
+
+      expect(listener).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe("#bind", () => {
     it("binds event to all channels", () => {
       const listener = jest.fn();

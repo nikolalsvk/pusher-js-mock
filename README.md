@@ -42,7 +42,9 @@ npm install -D pusher-js-mock
 ## Usage 🛠
 
 - [Emitting an event 📶](#emitting-an-event-📶)
-- [Listening for an events 👂](#listening-for-an-event-👂)
+- [Listening for an event 👂](#listening-for-an-event-👂)
+- [Emitting an event from connection 📶](#emitting-an-event-from-connection-📶)
+- [Listening for an event from connection 👂](#listening-for-an-event-from-connection-👂)
 - [Stubbing Pusher when imported from pusher-js package 📦](#stubbing-pusher-when-imported-from-pusher-js-package-📦)
 - [Stubbing Pusher when used as a global variable 🌍](#stubbing-pusher-when-used-as-a-global-variable-🌍)
 - [Mocking presence channels](#mocking-presence-channels)
@@ -81,7 +83,7 @@ bind a callback to your channel, and then emit an event.
 ```javascript
 import { PusherMock } from "pusher-js-mock";
 
-descibe('listening for an event', () => {
+descibe("listening for an event", () => {
   // initializing PusherMock
   const pusher = new PusherMock();
 
@@ -89,15 +91,52 @@ descibe('listening for an event', () => {
   const channel = pusher.subscribe("my-channel");
 
   // define and attach a listener
-  const listener = jest.fn()
-  channel.bind('event-name', listener)
+  const listener = jest.fn();
+  channel.bind("event-name", listener);
 
   // emitting an event
   channel.emit("event-name");
 
   // Expect listener to have been called
-  expect(listener).toHaveBeenCalled()
-})
+  expect(listener).toHaveBeenCalled();
+});
+```
+
+### Emitting an event from connection 📶
+
+The connection within pusher is mocked and can be used much like a channel channel. There's no need to subscribe to subscription as it's subscribed by default on pusher.
+
+```javascript
+import { PusherMock } from "pusher-js-mock";
+
+// initializing PusherMock
+const pusher = new PusherMock();
+
+// emitting connection event
+pusher.connection.emit("event-name");
+```
+
+### Listening for an event from connection 👂
+
+As with channels, you can also listen to connection for events.
+
+```javascript
+import { PusherMock } from "pusher-js-mock";
+
+descibe("listening for an event", () => {
+  // initializing PusherMock
+  const pusher = new PusherMock();
+
+  // define and attach a listener
+  const listener = jest.fn();
+  pusher.connection.bind("event-name", listener);
+
+  // emitting an event
+  pusher.connection.emit("event-name");
+
+  // Expect listener to have been called
+  expect(listener).toHaveBeenCalled();
+});
 ```
 
 ### Stubbing Pusher when imported from pusher-js package 📦
