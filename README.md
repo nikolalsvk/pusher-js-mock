@@ -41,12 +41,12 @@ npm install -D pusher-js-mock
 
 ## Usage 🛠
 
-- [Emitting an event 📶](#emitting-an-event-📶)
-- [Listening for an event 👂](#listening-for-an-event-👂)
-- [Emitting an event from connection 📶](#emitting-an-event-from-connection-📶)
-- [Listening for an event from connection 👂](#listening-for-an-event-from-connection-👂)
-- [Stubbing Pusher when imported from pusher-js package 📦](#stubbing-pusher-when-imported-from-pusher-js-package-📦)
-- [Stubbing Pusher when used as a global variable 🌍](#stubbing-pusher-when-used-as-a-global-variable-🌍)
+- [Emitting an event 📶](#emitting-an-event-)
+- [Listening for an event 👂](#listening-for-an-event-)
+- [Emitting an event from connection 📶](#emitting-an-event-from-connection-)
+- [Listening for an event from connection 👂](#listening-for-an-event-from-connection-)
+- [Stubbing Pusher when imported from pusher-js package 📦](#stubbing-pusher-when-imported-from-pusher-js-package-)
+- [Stubbing Pusher when used as a global variable 🌍](#stubbing-pusher-when-used-as-a-global-variable-)
 - [Mocking presence channels](#mocking-presence-channels)
   - [Using custom authorizer](#using-custom-authorizer)
   - [Pusher events emitted by presence channels](#pusher-events-emitted-by-presence-channels)
