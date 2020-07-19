@@ -21,6 +21,7 @@ class PusherMock {
   public clientKey: string | undefined;
   public config: IPusherMockOptions | undefined;
 
+  public connection = PusherMockInstance.connection;
   public channels = PusherMockInstance.channels;
   public channel = PusherMockInstance.channel;
 
