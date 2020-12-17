@@ -22,7 +22,7 @@ describe("PusherChannelMock", () => {
   });
 
   describe("#unbind_all", () => {
-    it("clears callbacks from all the events", () => {
+    it("clears events from all the callbacks", () => {
       const firstCallback = jest.fn();
       const secondCallback = jest.fn();
       channelMock.bind("first-channel", firstCallback);
