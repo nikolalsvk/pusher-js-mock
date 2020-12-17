@@ -35,7 +35,7 @@ class PusherChannelMock {
       cb => cb !== callback
     );
   }
-  
+
   /**
    * Unbind callbacks from all the events.
    */

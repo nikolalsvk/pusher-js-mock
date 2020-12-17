@@ -21,6 +21,23 @@ describe("PusherChannelMock", () => {
     });
   });
 
+  describe("#unbind_all", () => {
+    it("clears callbacks from all the events", () => {
+      const firstCallback = jest.fn();
+      const secondCallback = jest.fn();
+      channelMock.bind("first-channel", firstCallback);
+      channelMock.bind("second-channel", secondCallback);
+
+      channelMock.unbind_all();
+      channelMock.emit("first-channel");
+      channelMock.emit("second-channel");
+
+      expect(firstCallback).not.toHaveBeenCalled();
+      expect(secondCallback).not.toHaveBeenCalled();
+      expect(channelMock.callbacks).toEqual({});
+    });
+  });
+
   describe("#unbind", () => {
     describe("with callbacks defined for the event", () => {
       it("removes name: callback from callbacks object", () => {
