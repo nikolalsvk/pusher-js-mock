@@ -37,6 +37,13 @@ class PusherChannelMock {
   }
 
   /**
+   * Unbind callbacks from all the events.
+   */
+  public unbind_all() {
+    this.callbacks = {};
+  }
+
+  /**
    * Emit event with data.
    * @param {String} name - name of the event.
    * @param {*} data - data you want to pass in to callback function that gets called.
