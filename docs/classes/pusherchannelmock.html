@@ -2390,6 +2390,9 @@ img {
 					<a href="pusherchannelmock.html#emit" class="tsd-kind-icon">emit</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="pusherchannelmock.html#trigger" class="tsd-kind-icon">trigger</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="pusherchannelmock.html#unbind" class="tsd-kind-icon">unbind</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -2489,6 +2492,7 @@ img {
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="pusherchannelmock.html#bind" class="tsd-kind-icon">bind</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="pusherchannelmock.html#emit" class="tsd-kind-icon">emit</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="pusherchannelmock.html#trigger" class="tsd-kind-icon">trigger</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="pusherchannelmock.html#unbind" class="tsd-kind-icon">unbind</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="pusherchannelmock.html#unbind_all" class="tsd-kind-icon">unbind_<wbr>all</a></li>
 						</ul>
@@ -2508,7 +2512,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/f7ef218/src/pusher-channel-mock.ts#L10">pusher-channel-mock.ts:10</a></li>
+								<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/49f1b2b/src/pusher-channel-mock.ts#L10">pusher-channel-mock.ts:10</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2535,7 +2539,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">callbacks<span class="tsd-signature-symbol">:</span> <a href="../interfaces/icallbacks.html" class="tsd-signature-type">ICallbacks</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/f7ef218/src/pusher-channel-mock.ts#L9">pusher-channel-mock.ts:9</a></li>
+						<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/49f1b2b/src/pusher-channel-mock.ts#L9">pusher-channel-mock.ts:9</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2545,7 +2549,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/f7ef218/src/pusher-channel-mock.ts#L8">pusher-channel-mock.ts:8</a></li>
+						<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/49f1b2b/src/pusher-channel-mock.ts#L8">pusher-channel-mock.ts:8</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2555,7 +2559,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">subscribed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/f7ef218/src/pusher-channel-mock.ts#L10">pusher-channel-mock.ts:10</a></li>
+						<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/49f1b2b/src/pusher-channel-mock.ts#L10">pusher-channel-mock.ts:10</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2572,7 +2576,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/f7ef218/src/pusher-channel-mock.ts#L23">pusher-channel-mock.ts:23</a></li>
+								<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/49f1b2b/src/pusher-channel-mock.ts#L23">pusher-channel-mock.ts:23</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2621,12 +2625,49 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/f7ef218/src/pusher-channel-mock.ts#L51">pusher-channel-mock.ts:51</a></li>
+								<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/49f1b2b/src/pusher-channel-mock.ts#L51">pusher-channel-mock.ts:51</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Emit event with data.</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>name: <span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>name of the event.</p>
+								</div>
+							</li>
+							<li>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <span class="tsd-signature-type">any</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>data you want to pass in to callback function that gets called.</p>
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="trigger" class="tsd-anchor"></a>
+				<h3>trigger</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">trigger<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/49f1b2b/src/pusher-channel-mock.ts#L64">pusher-channel-mock.ts:64</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Trigger event with data.</p>
 							</div>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2658,7 +2699,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/f7ef218/src/pusher-channel-mock.ts#L33">pusher-channel-mock.ts:33</a></li>
+								<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/49f1b2b/src/pusher-channel-mock.ts#L33">pusher-channel-mock.ts:33</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2707,7 +2748,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/f7ef218/src/pusher-channel-mock.ts#L42">pusher-channel-mock.ts:42</a></li>
+								<li>Defined in <a href="https://github.com/nikolalsvk/pusher-js-mock/blob/49f1b2b/src/pusher-channel-mock.ts#L42">pusher-channel-mock.ts:42</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
