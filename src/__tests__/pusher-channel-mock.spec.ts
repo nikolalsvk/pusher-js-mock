@@ -95,4 +95,37 @@ describe("PusherChannelMock", () => {
       });
     });
   });
+
+  describe("#trigger", () => {
+    describe("callback is defined for given channel name", () => {
+      let callback: () => void;
+
+      beforeEach(() => {
+        callback = jest.fn();
+        channelMock.bind("my-channel", callback);
+      });
+
+      it("calls callback", () => {
+        channelMock.trigger("my-channel");
+
+        expect(callback).toHaveBeenCalledTimes(1);
+      });
+
+      it("calls callback with data", () => {
+        const data = "you used to call me on my cellphone";
+        channelMock.trigger("my-channel", data);
+
+        expect(callback).toBeCalledWith("you used to call me on my cellphone");
+      });
+    });
+
+    describe("callback is not defined for given channel name", () => {
+      it("returns null", () => {
+        const callback = jest.fn();
+        channelMock.trigger("my-channel");
+
+        expect(callback).not.toHaveBeenCalled();
+      });
+    });
+  });
 });
