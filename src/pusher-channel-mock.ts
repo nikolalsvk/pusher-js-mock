@@ -62,11 +62,7 @@ class PusherChannelMock {
    * @param {*} data - data you want to pass in to callback function that gets called.
    */
   public trigger(name: string, data?: any) {
-    const callbacks = this.callbacks[name];
-
-    if (callbacks) {
-      callbacks.forEach((cb: (data?: any) => void) => cb(data));
-    }
+    this.emit(name, data);
   }
 }
 
