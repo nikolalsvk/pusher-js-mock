@@ -99,6 +99,7 @@ export const proxyPresenceChannel = (
           return proxyBind(target, client);
         /** Emit callbacks on this channel, with conditions to check whether the callback should be called or not */
         case "emit":
+        case "trigger":
           return proxyEmit(target, client);
         /** For developer experience, attach IS_PROXY flag to check whether the channel has been proxied or not */
         case "IS_PROXY":
