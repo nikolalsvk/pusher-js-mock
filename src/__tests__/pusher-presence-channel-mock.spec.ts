@@ -111,7 +111,7 @@ describe("Proxied PusherPresenceChannelMock", () => {
 
       proxiedChannelMock.trigger("event");
 
-      expect(callback).toHaveBeenCalled();
+      expect(callback).not.toHaveBeenCalled();
     });
 
     it("emits pusher:member_added manually", () => {
@@ -123,7 +123,7 @@ describe("Proxied PusherPresenceChannelMock", () => {
 
       proxiedChannel.trigger("pusher:member_added", { data: "testing" });
 
-      expect(callback).toHaveBeenCalledWith({ data: "testing" });
+      expect(callback).not.toHaveBeenCalledWith({ data: "testing" });
     });
   });
 
