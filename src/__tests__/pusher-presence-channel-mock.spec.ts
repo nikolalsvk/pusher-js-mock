@@ -144,6 +144,11 @@ describe("Proxied PusherPresenceChannelMock", () => {
       expect(listener).toHaveBeenCalledTimes(1);
       expect(otherListener).toHaveBeenCalledTimes(1);
 
+      // should work the same way with trigger
+      proxiedChannelMock.trigger("client-event");
+      expect(listener).toHaveBeenCalledTimes(1);
+      expect(otherListener).toHaveBeenCalledTimes(2);
+
       expect(proxiedChannelMock.members.myID).toBe("my-id");
       expect(otherProxiedChannelMock.members.myID).toBe("your-id");
 
