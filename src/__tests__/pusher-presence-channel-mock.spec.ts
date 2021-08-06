@@ -111,7 +111,7 @@ describe("Proxied PusherPresenceChannelMock", () => {
 
       proxiedChannelMock.trigger("event");
 
-      expect(callback).toHaveBeenCalled();
+      expect(callback).not.toHaveBeenCalled();
     });
 
     it("emits pusher:member_added manually", () => {
@@ -123,7 +123,7 @@ describe("Proxied PusherPresenceChannelMock", () => {
 
       proxiedChannel.trigger("pusher:member_added", { data: "testing" });
 
-      expect(callback).toHaveBeenCalledWith({ data: "testing" });
+      expect(callback).not.toHaveBeenCalledWith({ data: "testing" });
     });
   });
 
@@ -143,6 +143,11 @@ describe("Proxied PusherPresenceChannelMock", () => {
       otherProxiedChannelMock.emit("client-event");
       expect(listener).toHaveBeenCalledTimes(1);
       expect(otherListener).toHaveBeenCalledTimes(1);
+
+      // should work the same way with trigger
+      proxiedChannelMock.trigger("client-event");
+      expect(listener).toHaveBeenCalledTimes(1);
+      expect(otherListener).toHaveBeenCalledTimes(2);
 
       expect(proxiedChannelMock.members.myID).toBe("my-id");
       expect(otherProxiedChannelMock.members.myID).toBe("your-id");
