@@ -53,6 +53,21 @@ describe("PusherMock", () => {
     });
   });
 
+  describe("#allChannels", () => {
+    beforeEach(() => {
+      pusherMock.channel("public-channel");
+      pusherMock.channel("presence-channel");
+    });
+
+    it("returns an array of channel mock instances", () => {
+      const allChannels = pusherMock.allChannels();
+
+      expect(allChannels).toHaveLength(2);
+      expect(allChannels[0]).toBeInstanceOf(PusherChannelMock);
+      expect(allChannels[1]).toBeInstanceOf(PusherPresenceChannelMock);
+    });
+  });
+
   describe("#connection", () => {
     it("returns instance of connection", () => {
       expect(pusherMock.connection).toBeDefined();

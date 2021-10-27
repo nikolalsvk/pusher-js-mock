@@ -119,6 +119,13 @@ class PusherMock {
       this.channel(channelName).unbind(name, callback);
     });
   }
+
+  /**
+   * Returns a list of all channels
+   */
+  public allChannels() {
+    return Object.values(this.channels);
+  }
 }
 
 export default PusherMock;
