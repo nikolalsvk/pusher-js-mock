@@ -20,9 +20,11 @@ class PusherChannelMock {
    * @param {String} name - name of the event.
    * @param {Function} callback - callback to be called on event.
    */
-  public bind(name: string, callback: () => void) {
+  public bind(name: string, callback: () => void): this {
     this.callbacks[name] = this.callbacks[name] || [];
     this.callbacks[name].push(callback);
+
+    return this;
   }
 
   /**
@@ -30,17 +32,21 @@ class PusherChannelMock {
    * @param {String} name - name of the event.
    * @param {Function} callback - callback to be called on event.
    */
-  public unbind(name: string, callback: () => void) {
+  public unbind(name: string, callback: () => void): this {
     this.callbacks[name] = (this.callbacks[name] || []).filter(
       cb => cb !== callback
     );
+
+    return this;
   }
 
   /**
    * Unbind callbacks from all the events.
    */
-  public unbind_all() {
+  public unbind_all(): this {
     this.callbacks = {};
+
+    return this;
   }
 
   /**
@@ -48,12 +54,14 @@ class PusherChannelMock {
    * @param {String} name - name of the event.
    * @param {*} data - data you want to pass in to callback function that gets called.
    */
-  public emit(name: string, data?: any) {
+  public emit(name: string, data?: any): this {
     const callbacks = this.callbacks[name];
 
     if (callbacks) {
       callbacks.forEach((cb: (data?: any) => void) => cb(data));
     }
+
+    return this;
   }
 
   /**
