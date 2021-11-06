@@ -71,25 +71,7 @@ class PusherMock {
   public unsubscribe(name: string) {
     if (name in PusherMockInstance.channels) {
       if (name.includes("presence-")) {
-        const channel = PusherMockInstance.channels[name];
-        emitDisconnectionEvents(channel, this);
-
-        for (const key of Object.keys(channel.callbacks)) {
-          // filter out any callbacks that are our own
-          channel.callbacks[key] = channel.callbacks[key].filter(
-            (cb: IProxiedCallback) => cb.owner !== this.id
-          );
-
-          // delete the callback list if there are no callbacks left
-          if (channel.callbacks[key].length === 0) {
-            delete channel.callbacks[key];
-          }
-        }
-
-        // if there are no callback events left, delete the channel
-        if (Object.keys(Object.assign({}, channel.callbacks)).length === 0) {
-          delete PusherMockInstance.channels[name];
-        }
+        this.unsubscribePresence(name);
       } else {
         // public channel
         PusherMockInstance.channels[name].callbacks = {};
@@ -125,6 +107,32 @@ class PusherMock {
    */
   public allChannels() {
     return Object.values(this.channels);
+  }
+
+  /**
+   * Unsubscribe from a mocked presence channel.
+   * @param {String} name - name of the channel.
+   */
+  private unsubscribePresence(name: string) {
+    const channel = PusherMockInstance.channels[name];
+    emitDisconnectionEvents(channel, this);
+
+    for (const key of Object.keys(channel.callbacks)) {
+      // filter out any callbacks that are our own
+      channel.callbacks[key] = channel.callbacks[key].filter(
+        (cb: IProxiedCallback) => cb.owner !== this.id
+      );
+
+      // delete the callback list if there are no callbacks left
+      if (channel.callbacks[key].length === 0) {
+        delete channel.callbacks[key];
+      }
+    }
+
+    // if there are no callback events left, delete the channel
+    if (Object.keys(Object.assign({}, channel.callbacks)).length === 0) {
+      delete PusherMockInstance.channels[name];
+    }
   }
 }
 
