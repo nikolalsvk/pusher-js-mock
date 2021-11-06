@@ -19,6 +19,10 @@ describe("PusherChannelMock", () => {
       expect(channelMock.callbacks).toMatchObject({ "my-channel": [callback] });
       expect(channelMock.callbacks["my-channel"]).toEqual([callback]);
     });
+
+    it("returns the channel mock instance", () => {
+      expect(channelMock.bind("my-channel", jest.fn())).toEqual(channelMock);
+    });
   });
 
   describe("#unbind_all", () => {
@@ -35,6 +39,10 @@ describe("PusherChannelMock", () => {
       expect(firstCallback).not.toHaveBeenCalled();
       expect(secondCallback).not.toHaveBeenCalled();
       expect(channelMock.callbacks).toEqual({});
+    });
+
+    it("returns the channel mock instance", () => {
+      expect(channelMock.unbind_all()).toEqual(channelMock);
     });
   });
 
@@ -60,6 +68,10 @@ describe("PusherChannelMock", () => {
           "my-channel": []
         });
       });
+    });
+
+    it("returns the channel mock instance", () => {
+      expect(channelMock.unbind("my-channel", jest.fn())).toEqual(channelMock);
     });
   });
 
@@ -93,6 +105,10 @@ describe("PusherChannelMock", () => {
 
         expect(callback).not.toHaveBeenCalled();
       });
+    });
+
+    it("returns the channel mock instance", () => {
+      expect(channelMock.emit("my-channel")).toEqual(channelMock);
     });
   });
 
