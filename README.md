@@ -83,7 +83,7 @@ bind a callback to your channel, and then emit an event.
 ```javascript
 import { PusherMock } from "pusher-js-mock";
 
-descibe("listening for an event", () => {
+describe("listening for an event", () => {
   // initializing PusherMock
   const pusher = new PusherMock();
 
@@ -123,7 +123,7 @@ As with channels, you can also listen to connection for events.
 ```javascript
 import { PusherMock } from "pusher-js-mock";
 
-descibe("listening for an event", () => {
+describe("listening for an event", () => {
   // initializing PusherMock
   const pusher = new PusherMock();
 
