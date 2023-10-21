@@ -16,9 +16,11 @@ jobs:
     - run: yarn lint
     - run: yarn cover
     - name: Code Climate Coverage Action
+      env:
+        CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
       uses: paambaati/codeclimate-action@v5.0.0
 
-  unit:
+  integration:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -30,5 +32,3 @@ jobs:
     - run: cd examples
     - run: yarn install --frozen-lockfile
     - run: yarn test
-    - name: Code Climate Coverage Action
-      uses: paambaati/codeclimate-action@v5.0.0
