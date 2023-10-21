@@ -50,6 +50,7 @@ npm install -D pusher-js-mock
 - [Mocking presence channels](#mocking-presence-channels)
   - [Using custom authorizer](#using-custom-authorizer)
   - [Pusher events emitted by presence channels](#pusher-events-emitted-by-presence-channels)
+- [Using with Vitest](#using-with-vitest)
 
 For more detailed examples, check out [`examples` directory](https://github.com/nikolalsvk/pusher-js-mock/tree/master/examples)
 inside the project!
@@ -293,6 +294,19 @@ it("should emit presence-channel events", async () => {
   channel.bind("pusher:member_removed", listener);
   await otherClient.unsubscribe("presence-channel");
   expect(listener).toHaveBeenCalledTimes(3);
+});
+```
+
+### Using with Vitest
+
+You can mock Pusher.js in Vitest environment like this:
+
+```js
+vi.mock("pusher-js", () => {
+  return {
+    __esModule: true,
+    default: require("pusher-js-mock").PusherMock,
+  };
 });
 ```
 
