@@ -36,3 +36,5 @@ jobs:
       env:
         CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
       uses: paambaati/codeclimate-action@v5.0.0
+      with:
+        coverageLocations: ${{github.workspace}}/examples
