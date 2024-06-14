@@ -59,6 +59,15 @@ describe("Proxied PusherPresenceChannelMock", () => {
     expect(proxiedChannelMock.subscribed).toBe(true);
   });
 
+  it("me and myID values should be different when accessed from different channel instances", () => {
+    expect(proxiedChannelMock.members.myID).not.toBe(
+      otherProxiedChannelMock.members.myID
+    );
+    expect(proxiedChannelMock.members.me).not.toBe(
+      otherProxiedChannelMock.members.me
+    );
+  });
+
   it("add new members to the channel", () => {
     expect(proxiedChannelMock.members.count).toBe(2);
     expect(proxiedChannelMock.members.get("my-id")).toEqual({

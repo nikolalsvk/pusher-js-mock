@@ -31,9 +31,20 @@ class PusherMockInstance {
         : new PusherChannelMock(name);
     }
 
-    return presenceChannel
+    const channel = presenceChannel
       ? proxyPresenceChannel(this.channels[name], client)
       : this.channels[name];
+
+    return new Proxy(channel, {
+      get(target, key) {
+        switch (key) {
+          case "pusher":
+            return client;
+          default:
+            return target[key];
+        }
+      }
+    });
   }
 
   /**

@@ -14,12 +14,24 @@ export interface IProxiedCallback {
  * @returns {Members} The proxied members property on the channel
  */
 const proxyMembers = (original: Members, client: PusherMock) => {
-  original.myID = client.id;
-  original.me = {
-    id: client.id,
-    info: client.info
-  };
-  return original;
+  return new Proxy(original, {
+    get(
+      target: PusherPresenceChannelMock["members"],
+      key: keyof PusherPresenceChannelMock["members"]
+    ) {
+      switch (key) {
+        case "me":
+          return {
+            id: client.id,
+            info: client.info
+          };
+        case "myID":
+          return client.id;
+        default:
+          return target[key];
+      }
+    }
+  });
 };
 
 /**
