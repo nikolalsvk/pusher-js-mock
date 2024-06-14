@@ -1,3 +1,4 @@
+import { proxyChannel } from "./proxy-channel";
 import { proxyPresenceChannel } from "./proxy-presence-channel";
 import PusherChannelMock from "./pusher-channel-mock";
 import PusherMock from "./pusher-js-mock";
@@ -24,27 +25,16 @@ class PusherMockInstance {
    * @returns {PusherChannelMock} PusherChannelMock object that represents channel
    */
   public channel(name: string, client: PusherMock = new PusherMock()) {
-    const presenceChannel = name.includes("presence-");
+    const presenceChannel = name.startsWith("presence-");
     if (!this.channels[name]) {
       this.channels[name] = presenceChannel
         ? new PusherPresenceChannelMock(name)
         : new PusherChannelMock(name);
     }
 
-    const channel = presenceChannel
+    return presenceChannel
       ? proxyPresenceChannel(this.channels[name], client)
-      : this.channels[name];
-
-    return new Proxy(channel, {
-      get(target, key) {
-        switch (key) {
-          case "pusher":
-            return client;
-          default:
-            return target[key];
-        }
-      }
-    });
+      : proxyChannel(this.channels[name], client);
   }
 
   /**

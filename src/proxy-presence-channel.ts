@@ -106,6 +106,8 @@ export const proxyPresenceChannel = (
         /** Attach this client's info the member specific calls */
         case "members":
           return proxyMembers(target.members, client);
+        case "pusher":
+          return client;
         /** Attach the owner of the callback so we can ignore it in future */
         case "bind":
           return proxyBind(target, client);

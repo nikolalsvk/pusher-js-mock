@@ -21,4 +21,10 @@ class PusherPresenceChannelMock extends PusherChannelMock {
   }
 }
 
+export function isPresenceChannel(
+  channel: PusherChannelMock
+): channel is PusherPresenceChannelMock {
+  return channel.name.startsWith("presence-");
+}
+
 export default PusherPresenceChannelMock;
