@@ -1,6 +1,11 @@
 # Write a GitHub Action for running tests with yarn
 name: Test
-on: [push, pull_request]
+
+on:
+  push:
+    branches: master
+  pull_request:
+    branches: master
 
 jobs:
   unit:
