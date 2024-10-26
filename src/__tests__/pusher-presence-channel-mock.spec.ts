@@ -1,4 +1,5 @@
 import { PusherMock, PusherPresenceChannelMock } from "../";
+import { isPresenceChannel } from "../pusher-presence-channel-mock";
 
 describe("PusherPresenceChannelMock", () => {
   let channelMock: PusherPresenceChannelMock;
@@ -51,12 +52,26 @@ describe("Proxied PusherPresenceChannelMock", () => {
     client = createClient("my-id", {});
     otherClient = createClient("your-id", {});
 
-    proxiedChannelMock = client.subscribe(PRESENCE_CHANNEL);
-    otherProxiedChannelMock = otherClient.subscribe(PRESENCE_CHANNEL);
+    const channel = client.subscribe(PRESENCE_CHANNEL);
+    const otherChannel = otherClient.subscribe(PRESENCE_CHANNEL);
+
+    if (!isPresenceChannel(channel) || !isPresenceChannel(otherChannel)) return;
+
+    proxiedChannelMock = channel;
+    otherProxiedChannelMock = otherChannel;
   });
 
   it("doesn't proxy class members it doesn't care about", () => {
     expect(proxiedChannelMock.subscribed).toBe(true);
+  });
+
+  it("me and myID values should be different when accessed from different channel instances", () => {
+    expect(proxiedChannelMock.members.myID).not.toBe(
+      otherProxiedChannelMock.members.myID
+    );
+    expect(proxiedChannelMock.members.me).not.toBe(
+      otherProxiedChannelMock.members.me
+    );
   });
 
   it("add new members to the channel", () => {
