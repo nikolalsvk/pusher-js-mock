@@ -21,6 +21,10 @@ describe("PusherMock", () => {
       expect(pusherMock.channel("my-channel")).toBeDefined();
     });
 
+    it("is possible to access pusher client through the channel object", () => {
+      expect(pusherMock.channel("my-channel").pusher).toBeDefined();
+    });
+
     it("adds new channel to channels object", () => {
       pusherMock.channel("my-channel");
       expect(pusherMock.channels).toMatchObject({ "my-channel": {} });

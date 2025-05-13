@@ -1,3 +1,5 @@
+import PusherMock from "./pusher-js-mock";
+
 /** Interface for all the callbacks each Pusher event could potentially have */
 interface ICallbacks {
   [key: string]: Array<() => void>;
@@ -8,6 +10,8 @@ class PusherChannelMock {
   public name: string;
   public callbacks: ICallbacks;
   public subscribed: boolean = true;
+  public IS_PROXY?: boolean;
+  public pusher?: PusherMock;
 
   /** Initialize PusherChannelMock with callbacks object. */
   constructor(name: string = "public-channel") {

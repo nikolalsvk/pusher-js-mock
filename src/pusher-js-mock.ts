@@ -2,6 +2,7 @@ import { PusherChannelMock } from ".";
 import { IProxiedCallback } from "./proxy-presence-channel";
 import { emitConnectionEvents, emitDisconnectionEvents } from "./pusher-events";
 import PusherMockInstance from "./pusher-js-mock-instance";
+import { isPresenceChannel } from "./pusher-presence-channel-mock";
 
 export interface IPusherMockOptions {
   authorizer: (
@@ -49,9 +50,11 @@ class PusherMock {
   public subscribe(name: string) {
     const channel = PusherMockInstance.channel(name, this);
 
-    if (name.includes("presence-")) {
+    if (isPresenceChannel(channel)) {
       this.config?.authorizer
-        ? this.config.authorizer({} as any).authorize(channel, this.setAuthInfo)
+        ? this.config
+            .authorizer({} as any)
+            .authorize(channel as any, this.setAuthInfo)
         : this.setAuthInfo(false, {
             id: Math.random()
               .toString(36)
@@ -69,8 +72,9 @@ class PusherMock {
    * @param {String} name - name of the channel.
    */
   public unsubscribe(name: string) {
+    const channel = PusherMockInstance.channel(name, this);
     if (name in PusherMockInstance.channels) {
-      if (name.includes("presence-")) {
+      if (isPresenceChannel(channel)) {
         this.unsubscribePresence(name);
       } else {
         // public channel
