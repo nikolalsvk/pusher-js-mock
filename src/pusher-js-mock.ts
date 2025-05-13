@@ -72,8 +72,9 @@ class PusherMock {
    * @param {String} name - name of the channel.
    */
   public unsubscribe(name: string) {
-    const channel = PusherMockInstance.channel(name, this);
     if (name in PusherMockInstance.channels) {
+      const channel = PusherMockInstance.channel(name, this);
+
       if (isPresenceChannel(channel)) {
         this.unsubscribePresence(name);
       } else {

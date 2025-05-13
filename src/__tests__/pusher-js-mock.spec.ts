@@ -25,6 +25,11 @@ describe("PusherMock", () => {
       expect(pusherMock.channel("my-channel").pusher).toBeDefined();
     });
 
+    it("returns a proxied channel with IS_PROXY flag set to true", () => {
+      const channel = pusherMock.channel("my-channel");
+      expect(channel.IS_PROXY).toBe(true);
+    });
+
     it("adds new channel to channels object", () => {
       pusherMock.channel("my-channel");
       expect(pusherMock.channels).toMatchObject({ "my-channel": {} });
