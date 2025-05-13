@@ -7,14 +7,17 @@
     <a href="https://badge.fury.io/js/pusher-js-mock" target="_blank">
      <img src="https://badge.fury.io/js/pusher-js-mock.svg" alt="npm version" />
     </a>
-    <a href="https://semaphoreci.com/nikolalsvk/pusher-js-mock" target="_blank">
-     <img src="https://semaphoreci.com/api/v1/nikolalsvk/pusher-js-mock/branches/master/shields_badge.svg" alt="Build Status" />
+    <a href="https://github.com/nikolalsvk/pusher-js-mock/actions">
+      <img alt="GitHub branch check runs" src="https://img.shields.io/github/check-runs/nikolalsvk/pusher-js-mock/master">
     </a>
     <a href="https://codeclimate.com/github/nikolalsvk/pusher-js-mock" target="_blank">
      <img src="https://codeclimate.com/github/nikolalsvk/pusher-js-mock/badges/gpa.svg" alt="Code Climate" />
     </a>
-    <a href="https://codeclimate.com/github/nikolalsvk/pusher-js-mock/coverage" target="_blank">
-     <img src="https://codeclimate.com/github/nikolalsvk/pusher-js-mock/badges/coverage.svg" alt="Test Coverage" />
+    <a href="https://qlty.sh/gh/nikolalsvk/projects/pusher-js-mock">
+      <img src="https://qlty.sh/badges/fafa3af3-7f17-4052-b73c-d442fd71d634/maintainability.svg" alt="Maintainability" />
+    </a>
+    <a href="https://qlty.sh/gh/nikolalsvk/projects/pusher-js-mock">
+      <img src="https://qlty.sh/badges/fafa3af3-7f17-4052-b73c-d442fd71d634/test_coverage.svg" alt="Test Coverage">
     </a>
     <a href="https://www.codetriage.com/nikolalsvk/pusher-js-mock" target="_blank">
      <img src="https://www.codetriage.com/nikolalsvk/pusher-js-mock/badges/users.svg" alt="Open Source Helpers" />
@@ -305,7 +308,7 @@ You can mock Pusher.js in Vitest environment like this:
 vi.mock("pusher-js", () => {
   return {
     __esModule: true,
-    default: require("pusher-js-mock").PusherMock,
+    default: require("pusher-js-mock").PusherMock
   };
 });
 ```
