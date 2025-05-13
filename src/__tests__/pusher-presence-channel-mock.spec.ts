@@ -90,6 +90,7 @@ describe("Proxied PusherPresenceChannelMock", () => {
     expect(proxiedChannelMock.members.myID).toBe("my-id");
     expect(proxiedChannelMock.members.me).toEqual({ id: "my-id", info: {} });
     expect(proxiedChannelMock.IS_PROXY).toBeDefined();
+    expect(proxiedChannelMock.pusher).toBe(client);
   });
 
   it("allows multiple clients to subscribe", () => {
