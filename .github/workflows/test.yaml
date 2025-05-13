@@ -23,7 +23,7 @@ jobs:
 
       - uses: qltysh/qlty-action/coverage@v1
         with:
-          oidc: true
+          token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
           files: coverage/lcov.info
 
   integration:
